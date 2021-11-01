@@ -946,18 +946,22 @@ class SankeyChart {
                 minPadding: 25,
                 virtualPadding: 7,
                 sort: null,
-                setPositions: false
+                setPositions: false,
+                fill: "grey",
+                stroke: "none",
+                opacity: 1
             },
             links: {
                 //data: links,
                 circularGap: 5,
                 circularLinkPortionTopBottom: 0.4,
                 circularLinkPortionLeftRight: 0.1,
-                opacity: 0.2,
+                opacity: 1,
                 useVirtualRoutes: true,
                 baseRadius: 10,
                 verticalMargin: 25,
-                virtualLinkType: "both"  // ["both", "bezier", "virtual"]
+                virtualLinkType: "both",  // ["both", "bezier", "virtual"]
+                color: 'lightgrey'
             },
             arrows: {
                 enabled: false,
@@ -1070,60 +1074,23 @@ class SankeyChart {
 
         node
             .append("rect")
-            .attr("x", function (d) {
-                return d.x0;
-            })
-            .attr("y", function (d) {
-                return d.y0;
-            })
-            .attr("height", function (d) {
-                return d.y1 - d.y0;
-            })
-            .attr("width", function (d) {
-                return d.x1 - d.x0;
-            })
-            .style("fill", function (d) {
-                return 'grey'
-                //return nodeColour(d.name);
-            })
-            .style("stroke", "grey")
-            .style("opacity", 0.5)
-        /*.on("mouseover", function (d) {
-            let thisName = d.name;
-
-            node.selectAll("rect").style("opacity", function (d) {
-                return highlightNodes(d, thisName);
-            });
-
-            svg.selectAll(".sankey-link").style("opacity", function (l) {
-                return l.source.name == thisName || l.target.name == thisName ? 1 : 0.3;
-            });
-
-            node.selectAll("text").style("opacity", function (d) {
-                return highlightNodes(d, thisName);
-            });
-        })
-        .on("mouseout", function (d) {
-            d3.selectAll("rect").style("opacity", 0.5);
-            d3.selectAll(".sankey-link").style("opacity", 0.7);
-            d3.selectAll("text").style("opacity", 1);
-        });*/
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .style("fill", this.config.nodes.fill)
+            .style("stroke",  this.config.nodes.stroke)
+            .style("opacity", this.config.nodes.opacity)
+        
 
         node
             .append("text")
-            .attr("x", function (d) {
-                return (d.x0 + d.x1) / 2;
-            })
-            .attr("y", function (d) {
-                let y = d.y0 - 8;
-                //y = y < graph.y0 ? d.y1 + 12 : y;
-                return y;
-            })
+            .attr("x", d => (d.x0 + d.x1) / 2)
+            .attr("y", d => d.y0 - 8)
             .attr("dy", "0.35em")
             .attr("text-anchor", "middle")
-            .text(function (d) {
-                return d.name;
-            });
+            .text(this.config.id)
+            //.text(d => d.name);
 
         node.append("title").text(function (d) {
             return d.name + "\n" + d.value;
@@ -1138,15 +1105,12 @@ class SankeyChart {
             .filter(d => d.path)
             .append("path")
             .attr("class", "sankey-link")
-            .attr("d", function (link) {
-                return link.path;
-            })
-            .style("stroke-width", function (d) {
-                return Math.max(1, d.width);
-            })
-            .style("mix-blend-mode", "multiply")
-            .style("opacity", 0.7)
-            .style("stroke", function (link, i) {
+            .attr("d", d => d.path)
+            .style("stroke-width", d => Math.max(1, d.width))
+            //.style("mix-blend-mode", "multiply")
+            //.style("opacity", 0.7)
+            .style("stroke", this.config.links.color)
+            /*.style("stroke", function (link, i) {
                 if (link.circular) {
                     return "red";
                 } else if (link.type == "virtual") {
@@ -1158,7 +1122,7 @@ class SankeyChart {
                     //return nodeColour(link.source.name);
                 }
                 //return link.circular ? "red" : "black";
-            });
+            });*/
 
         link.append("title").text(function (d) {
             return d.source.name + " → " + d.target.name + "\n Index: " + d.index;

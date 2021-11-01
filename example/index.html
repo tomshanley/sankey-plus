@@ -3,169 +3,1194 @@
 
 <head>
 
-    <script src="https://d3js.org/d3.v7.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3.v7.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100i" rel="stylesheet">
 
-    <title>Sankey with circular links</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
+  <title>Sankey with circular links</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
 
-        rect {
-            shape-rendering: crispEdges;
-        }
+    rect {
+      shape-rendering: crispEdges;
+    }
 
-        text {
-            font-size: 12px;
-            font-family: monospace;
-        }
+    text {
+      font-size: 12px;
+      font-family: monospace;
+    }
 
-        .link {
-            fill: none;
-        }
-    </style>
+    .link {
+      fill: none;
+    }
+  </style>
 </head>
 
 <body>
 
-    <h1>Sankey with benefits</h1>
-    <div id="chart"></div>
+  <h1>Sankey with benefits</h1>
+  <div id="chart"></div>
 
-    <script type="module">
+  <script type="module">
 
-        import { SankeyChart } from '../src/sankeyPlus.js';
+    import { SankeyChart } from '../src/sankeyPlus.js';
 
-        let div = d3.select("#chart");
+    let div = d3.select("#chart");
 
-        /*let nodes = [
-            { name: "startA" },
-            { name: "startB" },
-            { name: "process1" },
-        ];
+    /*let oaklanddata = {
+      "nodes": [
+        {
+          "name": "Capital Improvement Projects"
+        },
+        {
+          "name": "City Administrator"
+        },
+        {
+          "name": "City Attorney"
+        },
+        {
+          "name": "City Auditor"
+        },
+        {
+          "name": "City Clerk"
+        },
+        {
+          "name": "City Council"
+        },
+        {
+          "name": "Economic & Workforce Development"
+        },
+        {
+          "name": "Finance"
+        },
+        {
+          "name": "Fire"
+        },
+        {
+          "name": "Human Resources Management"
+        },
+        {
+          "name": "Human Services"
+        },
+        {
+          "name": "Information Technology"
+        },
+        {
+          "name": "Mayor"
+        },
+        {
+          "name": "Non-Departmental"
+        },
+        {
+          "name": "Oakland Parks & Recreation"
+        },
+        {
+          "name": "Oakland Public Library"
+        },
+        {
+          "name": "Oakland Public Works"
+        },
+        {
+          "name": "Planning & Building"
+        },
+        {
+          "name": "Police"
+        },
+        {
+          "name": "Business License Tax"
+        },
+        {
+          "name": "Fines & Penalties"
+        },
+        {
+          "name": "Grants & Subsidies"
+        },
+        {
+          "name": "Interest Income"
+        },
+        {
+          "name": "Interfund Transfers"
+        },
+        {
+          "name": "Licenses & Permits"
+        },
+        {
+          "name": "Miscellaneous Revenue"
+        },
+        {
+          "name": "Parking Tax"
+        },
+        {
+          "name": "Property Tax"
+        },
+        {
+          "name": "Real Estate Transfer Tax"
+        },
+        {
+          "name": "Sales Tax"
+        },
+        {
+          "name": "Service Charges"
+        },
+        {
+          "name": "Transfers from Fund Balance"
+        },
+        {
+          "name": "Transient Occupancy Tax"
+        },
+        {
+          "name": "Utility Consumption Tax"
+        },
+        {
+          "name": "Housing & Community Development"
+        },
+        {
+          "name": "Gas Tax"
+        },
+        {
+          "name": "Internal Service Funds"
+        },
+        {
+          "name": "Local Tax"
+        },
+        {
+          "name": "General Fund"
+        },
+        {
+          "name": "Non-Discretionary"
+        }
+      ],
+      "links": [
+        {
+          "source": 38,
+          "target": 0,
+          "value": 1.252
+        },
+        {
+          "source": 38,
+          "target": 1,
+          "value": 16.1024
+        },
+        {
+          "source": 38,
+          "target": 2,
+          "value": 4.9034
+        },
+        {
+          "source": 38,
+          "target": 3,
+          "value": 1.9137
+        },
+        {
+          "source": 38,
+          "target": 4,
+          "value": 1.9156
+        },
+        {
+          "source": 38,
+          "target": 5,
+          "value": 4.1698
+        },
+        {
+          "source": 38,
+          "target": 6,
+          "value": 4.8559
+        },
+        {
+          "source": 38,
+          "target": 7,
+          "value": 22.4377
+        },
+        {
+          "source": 38,
+          "target": 8,
+          "value": 124.7475
+        },
+        {
+          "source": 38,
+          "target": 9,
+          "value": 4.7713
+        },
+        {
+          "source": 38,
+          "target": 10,
+          "value": 5.2234
+        },
+        {
+          "source": 38,
+          "target": 11,
+          "value": 10.2803
+        },
+        {
+          "source": 38,
+          "target": 12,
+          "value": 2.549
+        },
+        {
+          "source": 38,
+          "target": 13,
+          "value": 77.2006
+        },
+        {
+          "source": 38,
+          "target": 14,
+          "value": 15.662
+        },
+        {
+          "source": 38,
+          "target": 15,
+          "value": 11.2828
+        },
+        {
+          "source": 38,
+          "target": 16,
+          "value": 2.8819
+        },
+        {
+          "source": 38,
+          "target": 17,
+          "value": 0.0454
+        },
+        {
+          "source": 38,
+          "target": 18,
+          "value": 212.5089
+        },
+        {
+          "source": 19,
+          "target": 38,
+          "value": 71.5054
+        },
+        {
+          "source": 20,
+          "target": 38,
+          "value": 23.8335
+        },
+        {
+          "source": 21,
+          "target": 38,
+          "value": 0.1194
+        },
+        {
+          "source": 22,
+          "target": 38,
+          "value": 0.7405
+        },
+        {
+          "source": 23,
+          "target": 38,
+          "value": 14.9229
+        },
+        {
+          "source": 24,
+          "target": 38,
+          "value": 2.2107
+        },
+        {
+          "source": 25,
+          "target": 38,
+          "value": 0.7493
+        },
+        {
+          "source": 26,
+          "target": 38,
+          "value": 10.2113
+        },
+        {
+          "source": 27,
+          "target": 38,
+          "value": 169.3074
+        },
+        {
+          "source": 28,
+          "target": 38,
+          "value": 55.63
+        },
+        {
+          "source": 29,
+          "target": 38,
+          "value": 55.4251
+        },
+        {
+          "source": 30,
+          "target": 38,
+          "value": 46.8456
+        },
+        {
+          "source": 31,
+          "target": 38,
+          "value": 6.8025
+        },
+        {
+          "source": 32,
+          "target": 38,
+          "value": 16.4
+        },
+        {
+          "source": 33,
+          "target": 38,
+          "value": 50
+        },
+        {
+          "source": 39,
+          "target": 0,
+          "value": 38.4343
+        },
+        {
+          "source": 39,
+          "target": 1,
+          "value": 4.0636
+        },
+        {
+          "source": 39,
+          "target": 2,
+          "value": 9.6838
+        },
+        {
+          "source": 39,
+          "target": 4,
+          "value": 0.0675
+        },
+        {
+          "source": 39,
+          "target": 6,
+          "value": 12.5926
+        },
+        {
+          "source": 39,
+          "target": 7,
+          "value": 13.5228
+        },
+        {
+          "source": 39,
+          "target": 8,
+          "value": 10.8653
+        },
+        {
+          "source": 39,
+          "target": 34,
+          "value": 18.5454
+        },
+        {
+          "source": 39,
+          "target": 9,
+          "value": 1.9615
+        },
+        {
+          "source": 39,
+          "target": 10,
+          "value": 62.6754
+        },
+        {
+          "source": 39,
+          "target": 11,
+          "value": 16.9423
+        },
+        {
+          "source": 39,
+          "target": 12,
+          "value": 0.2937
+        },
+        {
+          "source": 39,
+          "target": 13,
+          "value": 263.7925
+        },
+        {
+          "source": 39,
+          "target": 14,
+          "value": 10.5757
+        },
+        {
+          "source": 39,
+          "target": 15,
+          "value": 17.5294
+        },
+        {
+          "source": 39,
+          "target": 16,
+          "value": 156.8086
+        },
+        {
+          "source": 39,
+          "target": 17,
+          "value": 27.1776
+        },
+        {
+          "source": 39,
+          "target": 18,
+          "value": 23.6575
+        },
+        {
+          "source": 20,
+          "target": 39,
+          "value": 4.7521
+        },
+        {
+          "source": 35,
+          "target": 39,
+          "value": 7.0609
+        },
+        {
+          "source": 21,
+          "target": 39,
+          "value": 58.1621
+        },
+        {
+          "source": 22,
+          "target": 39,
+          "value": 0.1915
+        },
+        {
+          "source": 23,
+          "target": 39,
+          "value": 135.5091
+        },
+        {
+          "source": 36,
+          "target": 39,
+          "value": 74.2976
+        },
+        {
+          "source": 24,
+          "target": 39,
+          "value": 15.4548
+        },
+        {
+          "source": 37,
+          "target": 39,
+          "value": 148.1487
+        },
+        {
+          "source": 25,
+          "target": 39,
+          "value": 36.7525
+        },
+        {
+          "source": 26,
+          "target": 39,
+          "value": 8.6796
+        },
+        {
+          "source": 27,
+          "target": 39,
+          "value": 4.2857
+        },
+        {
+          "source": 29,
+          "target": 39,
+          "value": 24.6465
+        },
+        {
+          "source": 30,
+          "target": 39,
+          "value": 121.437
+        },
+        {
+          "source": 31,
+          "target": 39,
+          "value": 45.3387
+        },
+        {
+          "source": 32,
+          "target": 39,
+          "value": 4.4727
+        }
+      ]
+    }
 
-        let links = [
-            { source: "startA", target: "startB", value: 20, optimal: "yes" },
-            { source: "startB", target: "process1", value: 20, optimal: "yes" }];*/
+    oaklanddata.nodes.forEach(function (node, i) {
+      node.title = node.name;
+      node.name = i;
+    })*/
 
-       let nodes = [
-            { name: "startA" },
-            { name: "startB" },
-            { name: "process1" },
-            { name: "process2" },
-            { name: "process3" },
-            { name: "process4" },
-            { name: "process5" },
-            { name: "process6" },
-            { name: "process7" },
-            { name: "process8" },
-            { name: "process9" },
-            { name: "process10" },
-            { name: "process11" },
-            { name: "process12" },
-            { name: "process13" },
-            { name: "process14" },
-            { name: "process15" },
-            { name: "process16" },
-            { name: "finishA" },
-            { name: "finishB" }
-        ];
+    /*let greenhouse =
+    {
+      "nodes": [
+        {
+          "name": "Energy"
+        },
+        {
+          "name": "Industrial Processes"
+        },
+        {
+          "name": "Electricity and heat"
+        },
+        {
+          "name": "Industry"
+        },
+        {
+          "name": "Land Use Change"
+        },
+        {
+          "name": "Agriculture"
+        },
+        {
+          "name": "Waste"
+        },
+        {
+          "name": "Transportation"
+        },
+        {
+          "name": "Other Fuel Combustion"
+        },
+        {
+          "name": "Fugitive Emissions"
+        },
+        {
+          "name": "Road"
+        },
+        {
+          "name": "Air"
+        },
+        {
+          "name": "Rail - Ship and Other Transport"
+        },
+        {
+          "name": "Residential Buildings"
+        },
+        {
+          "name": "Commercial Buildings"
+        },
+        {
+          "name": "Unallocated Fuel Combustion"
+        },
+        {
+          "name": "Iron and Steel"
+        },
+        {
+          "name": "Aluminium Non-Ferrous Metals"
+        },
+        {
+          "name": "Machinery"
+        },
+        {
+          "name": "Pulp - Paper and Printing"
+        },
+        {
+          "name": "Food and Tobacco"
+        },
+        {
+          "name": "Chemicals"
+        },
+        {
+          "name": "Cement"
+        },
+        {
+          "name": "Other Industry"
+        },
+        {
+          "name": "T and D Losses"
+        },
+        {
+          "name": "Coal Mining"
+        },
+        {
+          "name": "Oil and Gas Processing"
+        },
+        {
+          "name": "Deforestation"
+        },
+        {
+          "name": "Harvest \/ Management"
+        },
+        {
+          "name": "Agricultural Energy Use"
+        },
+        {
+          "name": "Agriculture Soils"
+        },
+        {
+          "name": "Livestock and Manure"
+        },
+        {
+          "name": "Rice Cultivation"
+        },
+        {
+          "name": "Other Agriculture"
+        },
+        {
+          "name": "Landfills"
+        },
+        {
+          "name": "Waste water - Other Waste"
+        },
+        {
+          "name": "Carbon Dioxide"
+        },
+        {
+          "name": "HFCs - PFCs"
+        },
+        {
+          "name": "Methane"
+        },
+        {
+          "name": "Nitrous Oxide"
+        }
+      ],
+      "links": [
+        {
+          "source": "Agricultural Energy Use",
+          "target": "Carbon Dioxide",
+          "value": "1.4"
+        },
+        {
+          "source": "Agriculture",
+          "target": "Agriculture Soils",
+          "value": "5.2"
+        },
+        {
+          "source": "Agriculture",
+          "target": "Livestock and Manure",
+          "value": "5.4"
+        },
+        {
+          "source": "Agriculture",
+          "target": "Other Agriculture",
+          "value": "1.7"
+        },
+        {
+          "source": "Agriculture",
+          "target": "Rice Cultivation",
+          "value": "1.5"
+        },
+        {
+          "source": "Agriculture Soils",
+          "target": "Nitrous Oxide",
+          "value": "5.2"
+        },
+        {
+          "source": "Air",
+          "target": "Carbon Dioxide",
+          "value": "1.7"
+        },
+        {
+          "source": "Aluminium Non-Ferrous Metals",
+          "target": "Carbon Dioxide",
+          "value": "1.0"
+        },
+        {
+          "source": "Aluminium Non-Ferrous Metals",
+          "target": "HFCs - PFCs",
+          "value": "0.2"
+        },
+        {
+          "source": "Cement",
+          "target": "Carbon Dioxide",
+          "value": "5.0"
+        },
+        {
+          "source": "Chemicals",
+          "target": "Carbon Dioxide",
+          "value": "3.4"
+        },
+        {
+          "source": "Chemicals",
+          "target": "HFCs - PFCs",
+          "value": "0.5"
+        },
+        {
+          "source": "Chemicals",
+          "target": "Nitrous Oxide",
+          "value": "0.2"
+        },
+        {
+          "source": "Coal Mining",
+          "target": "Carbon Dioxide",
+          "value": "0.1"
+        },
+        {
+          "source": "Coal Mining",
+          "target": "Methane",
+          "value": "1.2"
+        },
+        {
+          "source": "Commercial Buildings",
+          "target": "Carbon Dioxide",
+          "value": "6.3"
+        },
+        {
+          "source": "Deforestation",
+          "target": "Carbon Dioxide",
+          "value": "10.9"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Agricultural Energy Use",
+          "value": "0.4"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Aluminium Non-Ferrous Metals",
+          "value": "0.4"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Cement",
+          "value": "0.3"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Chemicals",
+          "value": "1.3"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Commercial Buildings",
+          "value": "5.0"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Food and Tobacco",
+          "value": "0.5"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Iron and Steel",
+          "value": "1.0"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Machinery",
+          "value": "1.0"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Oil and Gas Processing",
+          "value": "0.4"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Other Industry",
+          "value": "2.7"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Pulp - Paper and Printing",
+          "value": "0.6"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Residential Buildings",
+          "value": "5.2"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "T and D Losses",
+          "value": "2.2"
+        },
+        {
+          "source": "Electricity and heat",
+          "target": "Unallocated Fuel Combustion",
+          "value": "2.0"
+        },
+        {
+          "source": "Energy",
+          "target": "Electricity and heat",
+          "value": "24.9"
+        },
+        {
+          "source": "Energy",
+          "target": "Fugitive Emissions",
+          "value": "4.0"
+        },
+        {
+          "source": "Energy",
+          "target": "Industry",
+          "value": "14.7"
+        },
+        {
+          "source": "Energy",
+          "target": "Other Fuel Combustion",
+          "value": "8.6"
+        },
+        {
+          "source": "Energy",
+          "target": "Transportation",
+          "value": "14.3"
+        },
+        {
+          "source": "Food and Tobacco",
+          "target": "Carbon Dioxide",
+          "value": "1.0"
+        },
+        {
+          "source": "Fugitive Emissions",
+          "target": "Coal Mining",
+          "value": "1.3"
+        },
+        {
+          "source": "Fugitive Emissions",
+          "target": "Oil and Gas Processing",
+          "value": "3.2"
+        },
+        {
+          "source": "Harvest \/ Management",
+          "target": "Carbon Dioxide",
+          "value": "1.3"
+        },
+        {
+          "source": "Industrial Processes",
+          "target": "Aluminium Non-Ferrous Metals",
+          "value": "0.4"
+        },
+        {
+          "source": "Industrial Processes",
+          "target": "Cement",
+          "value": "2.8"
+        },
+        {
+          "source": "Industrial Processes",
+          "target": "Chemicals",
+          "value": "1.4"
+        },
+        {
+          "source": "Industrial Processes",
+          "target": "Other Industry",
+          "value": "0.5"
+        },
+        {
+          "source": "Industry",
+          "target": "Aluminium Non-Ferrous Metals",
+          "value": "0.4"
+        },
+        {
+          "source": "Industry",
+          "target": "Cement",
+          "value": "1.9"
+        },
+        {
+          "source": "Industry",
+          "target": "Chemicals",
+          "value": "1.4"
+        },
+        {
+          "source": "Industry",
+          "target": "Food and Tobacco",
+          "value": "0.5"
+        },
+        {
+          "source": "Industry",
+          "target": "Iron and Steel",
+          "value": "3.0"
+        },
+        {
+          "source": "Industry",
+          "target": "Oil and Gas Processing",
+          "value": "2.8"
+        },
+        {
+          "source": "Industry",
+          "target": "Other Industry",
+          "value": "3.8"
+        },
+        {
+          "source": "Industry",
+          "target": "Pulp - Paper and Printing",
+          "value": "0.5"
+        },
+        {
+          "source": "Iron and Steel",
+          "target": "Carbon Dioxide",
+          "value": "4.0"
+        },
+        {
+          "source": "Land Use Change",
+          "target": "Deforestation",
+          "value": "10.9"
+        },
+        {
+          "source": "Land Use Change",
+          "target": "Harvest \/ Management",
+          "value": "1.3"
+        },
+        {
+          "source": "Landfills",
+          "target": "Methane",
+          "value": "1.7"
+        },
+        {
+          "source": "Livestock and Manure",
+          "target": "Methane",
+          "value": "5.1"
+        },
+        {
+          "source": "Livestock and Manure",
+          "target": "Nitrous Oxide",
+          "value": "0.3"
+        },
+        {
+          "source": "Machinery",
+          "target": "Carbon Dioxide",
+          "value": "1.0"
+        },
+        {
+          "source": "Oil and Gas Processing",
+          "target": "Carbon Dioxide",
+          "value": "3.6"
+        },
+        {
+          "source": "Oil and Gas Processing",
+          "target": "Methane",
+          "value": "2.8"
+        },
+        {
+          "source": "Other Agriculture",
+          "target": "Methane",
+          "value": "1.4"
+        },
+        {
+          "source": "Other Agriculture",
+          "target": "Nitrous Oxide",
+          "value": "0.3"
+        },
+        {
+          "source": "Other Fuel Combustion",
+          "target": "Agricultural Energy Use",
+          "value": "1.0"
+        },
+        {
+          "source": "Other Fuel Combustion",
+          "target": "Commercial Buildings",
+          "value": "1.3"
+        },
+        {
+          "source": "Other Fuel Combustion",
+          "target": "Residential Buildings",
+          "value": "5.0"
+        },
+        {
+          "source": "Other Fuel Combustion",
+          "target": "Unallocated Fuel Combustion",
+          "value": "1.8"
+        },
+        {
+          "source": "Other Industry",
+          "target": "Carbon Dioxide",
+          "value": "6.6"
+        },
+        {
+          "source": "Other Industry",
+          "target": "HFCs - PFCs",
+          "value": "0.4"
+        },
+        {
+          "source": "Pulp - Paper and Printing",
+          "target": "Carbon Dioxide",
+          "value": "1.1"
+        },
+        {
+          "source": "Rail - Ship and Other Transport",
+          "target": "Carbon Dioxide",
+          "value": "2.5"
+        },
+        {
+          "source": "Residential Buildings",
+          "target": "Carbon Dioxide",
+          "value": "10.2"
+        },
+        {
+          "source": "Rice Cultivation",
+          "target": "Methane",
+          "value": "1.5"
+        },
+        {
+          "source": "Road",
+          "target": "Carbon Dioxide",
+          "value": "10.5"
+        },
+        {
+          "source": "T and D Losses",
+          "target": "Carbon Dioxide",
+          "value": "2.2"
+        },
+        {
+          "source": "Transportation",
+          "target": "Air",
+          "value": "1.7"
+        },
+        {
+          "source": "Transportation",
+          "target": "Rail - Ship and Other Transport",
+          "value": "2.5"
+        },
+        {
+          "source": "Transportation",
+          "target": "Road",
+          "value": "10.5"
+        },
+        {
+          "source": "Unallocated Fuel Combustion",
+          "target": "Carbon Dioxide",
+          "value": "3.0"
+        },
+        {
+          "source": "Unallocated Fuel Combustion",
+          "target": "Methane",
+          "value": "0.4"
+        },
+        {
+          "source": "Unallocated Fuel Combustion",
+          "target": "Nitrous Oxide",
+          "value": "0.4"
+        },
+        {
+          "source": "Waste",
+          "target": "Landfills",
+          "value": "1.7"
+        },
+        {
+          "source": "Waste",
+          "target": "Waste water - Other Waste",
+          "value": "1.5"
+        },
+        {
+          "source": "Waste water - Other Waste",
+          "target": "Methane",
+          "value": "1.2"
+        },
+        {
+          "source": "Waste water - Other Waste",
+          "target": "Nitrous Oxide",
+          "value": "0.3"
+        }
+      ]
+    }
+
+    greenhouse.links.forEach(function (link) {
+      link.value = +link.value
+    })*/
 
 
-        let links = [
-            { source: "startA", target: "process8", value: 20, optimal: "yes" },
-            { source: "startA", target: "process5", value: 20, optimal: "yes" },
-            { source: "startA", target: "process6", value: 20, optimal: "yes" },
-            { source: "startB", target: "process1", value: 15, optimal: "yes" },
-            { source: "startB", target: "process5", value: 15, optimal: "yes" },
-            { source: "process1", target: "process4", value: 30, optimal: "yes" },
-            { source: "process4", target: "process1", value: 10, optimal: "yes" },
-            { source: "process2", target: "process7", value: 35, optimal: "yes" },
-            { source: "process1", target: "process3", value: 20, optimal: "yes" },
-            { source: "process5", target: "process1", value: 20, optimal: "yes" },
-            { source: "process6", target: "startA", value: 5, optimal: "yes" },
-            { source: "process4", target: "process2", value: 10, optimal: "yes" },
-            { source: "process6", target: "process8", value: 15, optimal: "yes" },
-            //{ "source": "process4", "target": "startB", "value": 5, "optimal": "yes" },
-            { source: "process3", target: "process2", value: 15, optimal: "yes" },
-            //{ "source": "process3", "target": "startB", "value": 5, "optimal": "yes" },
-            { source: "process15", target: "process13", value: 10, optimal: "yes" },
-            { source: "process13", target: "process9", value: 10, optimal: "yes" },
-            { source: "process7", target: "startB", value: 20, optimal: "yes" },
-            { source: "process8", target: "process1", value: 10, optimal: "yes" },
-            { source: "process8", target: "process16", value: 10, optimal: "yes" },
-            { source: "process16", target: "process9", value: 10, optimal: "yes" },
-            { source: "process8", target: "process11", value: 25, optimal: "yes" },
-            { source: "process11", target: "process10", value: 20, optimal: "yes" },
-            { source: "process4", target: "process12", value: 10, optimal: "yes" },
-            { source: "process12", target: "process11", value: 10, optimal: "yes" },
-            { source: "process7", target: "process15", value: 15, optimal: "yes" },
-            { source: "process15", target: "process14", value: 10, optimal: "yes" },
-            { source: "process10", target: "process13", value: 10, optimal: "yes" },
-            { source: "process10", target: "process16", value: 10, optimal: "yes" },
-            { source: "process14", target: "finishB", value: 10, optimal: "yes" },
-            { source: "process9", target: "finishA", value: 10, optimal: "yes" },
-            { source: "process16", target: "process8", value: 10, optimal: "yes" },
-            { source: "process9", target: "finishB", value: 10, optimal: "yes" },
-            { source: "process15", target: "finishB", value: 10, optimal: "yes" },
-            { source: "process15", target: "finishA", value: 10, optimal: "yes" },
-            { source: "process11", target: "process15", value: 25, optimal: "yes" },
-            { source: "process11", target: "process11", value: 5, optimal: "yes" },
-            { source: "finishA", target: "finishA", value: 15, optimal: "yes" },
-            { source: "finishB", target: "finishB", value: 15, optimal: "yes" },
-            { source: "process5", target: "process5", value: 10, optimal: "yes" },
-            { source: "finishB", target: "process14", value: 5, optimal: "yes" }
-        ];
+    /*let nodes = [
+        { name: "startA" },
+        { name: "startB" },
+        { name: "process1" },
+    ];
 
-        const sankeyConfig = {
-            justify: "left",
-            id: d => d.name,
-            iterations: 32,
-            extent: [[0, 0,], [1, 1]],
-            padding: 20,
-            width: 1000,
-            height: 500,
-            useManualScale: true,
-            nodes: {
-                data: nodes,
-                width: 25,
-                maxHeight: 75,
-                padding: 25,
-                minPadding: 25,
-                virtualPadding: 7,
-                sort: null,
-                setPositions: false
-            },
-            links: {
-                data: links,
-                circularGap: 5,
-                circularLinkPortionTopBottom: 0.4,
-                circularLinkPortionLeftRight: 0.1,
-                opacity: 0.2,
-                useVirtualRoutes: true,
-                baseRadius: 10,
-                verticalMargin: 25,
-                virtualLinkType: "both"  // ["both", "bezier", "virtual"]
-            },
-            arrows: {
-                enabled: true,
-                color: 'DarkSlateGrey',
-                length: 10,
-                gap: 25,
-                headSize: 4
-            }
+    let links = [
+        { source: "startA", target: "startB", value: 20, optimal: "yes" },
+        { source: "startB", target: "process1", value: 20, optimal: "yes" }];*/
 
-        };
+    let nodes = [
+      { name: "startA" },
+      { name: "startB" },
+      { name: "process1" },
+      { name: "process2" },
+      { name: "process3" },
+      { name: "process4" },
+      { name: "process5" },
+      { name: "process6" },
+      { name: "process7" },
+      { name: "process8" },
+      { name: "process9" },
+      { name: "process10" },
+      { name: "process11" },
+      { name: "process12" },
+      { name: "process13" },
+      { name: "process14" },
+      { name: "process15" },
+      { name: "process16" },
+      { name: "finishA" },
+      { name: "finishB" }
+    ];
 
-        let chart = new SankeyChart(div, sankeyConfig);
 
-        console.log(chart);
+    let links = [
+      { source: "startA", target: "process8", value: 20, optimal: "yes" },
+      { source: "startA", target: "process5", value: 20, optimal: "yes" },
+      { source: "startA", target: "process6", value: 20, optimal: "yes" },
+      { source: "startB", target: "process1", value: 15, optimal: "yes" },
+      { source: "startB", target: "process5", value: 15, optimal: "yes" },
+      { source: "process1", target: "process4", value: 30, optimal: "yes" },
+      { source: "process4", target: "process1", value: 10, optimal: "yes" },
+      { source: "process2", target: "process7", value: 35, optimal: "yes" },
+      { source: "process1", target: "process3", value: 20, optimal: "yes" },
+      { source: "process5", target: "process1", value: 20, optimal: "yes" },
+      { source: "process6", target: "startA", value: 5, optimal: "yes" },
+      { source: "process4", target: "process2", value: 10, optimal: "yes" },
+      { source: "process6", target: "process8", value: 15, optimal: "yes" },
+      { source: "process3", target: "process2", value: 15, optimal: "yes" },
+      { source: "process15", target: "process13", value: 10, optimal: "yes" },
+      { source: "process13", target: "process9", value: 10, optimal: "yes" },
+      { source: "process7", target: "startB", value: 20, optimal: "yes" },
+      { source: "process8", target: "process1", value: 10, optimal: "yes" },
+      { source: "process8", target: "process16", value: 10, optimal: "yes" },
+      { source: "process16", target: "process9", value: 10, optimal: "yes" },
+      { source: "process8", target: "process11", value: 25, optimal: "yes" },
+      { source: "process11", target: "process10", value: 20, optimal: "yes" },
+      { source: "process4", target: "process12", value: 10, optimal: "yes" },
+      { source: "process12", target: "process11", value: 10, optimal: "yes" },
+      { source: "process7", target: "process15", value: 15, optimal: "yes" },
+      { source: "process15", target: "process14", value: 10, optimal: "yes" },
+      { source: "process10", target: "process13", value: 10, optimal: "yes" },
+      { source: "process10", target: "process16", value: 10, optimal: "yes" },
+      { source: "process14", target: "finishB", value: 10, optimal: "yes" },
+      { source: "process9", target: "finishA", value: 10, optimal: "yes" },
+      { source: "process16", target: "process8", value: 10, optimal: "yes" },
+      { source: "process9", target: "finishB", value: 10, optimal: "yes" },
+      { source: "process15", target: "finishB", value: 10, optimal: "yes" },
+      { source: "process15", target: "finishA", value: 10, optimal: "yes" },
+      { source: "process11", target: "process15", value: 25, optimal: "yes" },
+      { source: "process11", target: "process11", value: 5, optimal: "yes" },
+      { source: "finishA", target: "finishA", value: 15, optimal: "yes" },
+      { source: "finishB", target: "finishB", value: 15, optimal: "yes" },
+      { source: "process5", target: "process5", value: 10, optimal: "yes" },
+      { source: "finishB", target: "process14", value: 5, optimal: "yes" }
+    ];
 
-        chart.redraw();
+    //set the nodes and links data (mandatory)
+    //override the defaults
+    const sankeyConfig = {
+      justify: "left",
+      id: d => d.name,
+      iterations: 32,
+      extent: [[0, 0,], [1, 1]],
+      padding: 20,
+      width: 1000,
+      height: 500,
+      useManualScale: true,
+      nodes: {
+        data: nodes,
+        width: 25,
+        maxHeight: 75,
+        padding: 25,
+        minPadding: 25,
+        virtualPadding: 7,
+        sort: null,
+        setPositions: false
+      },
+      links: {
+        data: links,
+        circularGap: 5,
+        circularLinkPortionTopBottom: 0.4,
+        circularLinkPortionLeftRight: 0.1,
+        useVirtualRoutes: true,
+        baseRadius: 10,
+        verticalMargin: 25,
+        opacity: 0.5,
+        virtualLinkType: "virtual"  // ["both", "bezier", "virtual"]
+      },
+      arrows: {
+        enabled: true,
+        color: 'DarkSlateGrey',
+        length: 10,
+        gap: 25,
+        headSize: 4
+      }
 
-    </script>
+    };
+
+    let chart = new SankeyChart(div, sankeyConfig);
+
+    console.log(chart);
+
+    chart.redraw();
+
+  </script>
 
 </body>
 
