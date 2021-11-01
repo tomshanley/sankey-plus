@@ -547,7 +547,6 @@ function computeNodeBreadths(inputGraph, setNodePositions, id) {
     return graph;
 }
 
-
 function resolveCollisionsAndRelax(inputGraph, id, nodePadding, minNodePadding, iterations) {
     //let graph = clone(inputGraph);
 
@@ -786,7 +785,6 @@ function fillHeight(inputGraph) {
     return graph;
 }
 
-
 function addVirtualPathData(inputGraph, virtualLinkType) {
     let graph = clone(inputGraph);
 
@@ -917,28 +915,66 @@ function addVirtualPathData(inputGraph, virtualLinkType) {
     return graph;
 }
 
-/*
-
-TO DO
-
-Arrows
-
-redraw draw sankey
-
-
-
-
-
-*/
-
 class SankeyChart {
 
-    constructor(el, config) {
+    constructor(el,  config) {
+
+        if(!config.nodes.data) {
+            throw  'Please supply node data';
+        } 
+
+        if(!config.links.data) {
+            throw 'Please supply links data' ;
+        }
+
         this.el = el;
 
-        //console.log(config)
+        const defaultOptions = {
+            justify: "left",
+            id: d => d.name,
+            iterations: 32,
+            extent: [[0, 0,], [1, 1]],
+            padding: 20,
+            width: 1000,
+            height: 500,
+            useManualScale: true,
+            nodes: {
+                //data: nodes,
+                width: 24, //dx
+                maxHeight: 75,
+                padding: 25,
+                minPadding: 25,
+                virtualPadding: 7,
+                sort: null,
+                setPositions: false
+            },
+            links: {
+                //data: links,
+                circularGap: 5,
+                circularLinkPortionTopBottom: 0.4,
+                circularLinkPortionLeftRight: 0.1,
+                opacity: 0.2,
+                useVirtualRoutes: true,
+                baseRadius: 10,
+                verticalMargin: 25,
+                virtualLinkType: "both"  // ["both", "bezier", "virtual"]
+            },
+            arrows: {
+                enabled: false,
+                color: 'DarkSlateGrey',
+                length: 10,
+                gap: 25,
+                headSize: 4
+            }
 
-        this.config = config;
+        };
+
+        //let config = defaultOptions
+
+        this.config = Object.assign({}, defaultOptions, config);
+        this.config.nodes = Object.assign({}, defaultOptions.nodes, config.nodes);
+        this.config.links = Object.assign({}, defaultOptions.links, config.links);
+        this.config.arrows = Object.assign({}, defaultOptions.arrows, config.arrows);
 
         let sortNodes = this.config.nodes.sort
             ? function (node) {
@@ -957,12 +993,7 @@ class SankeyChart {
             links: config.links.data
         }, this.config.id);
 
-        /*sankeyExtent = ({
-            x0: chartPadding,
-            y0: chartPadding,
-            x1: chartWidth + chartPadding,
-            y1: chartHeight + chartPadding
-            })*/
+
         this.graph.x0 = this.config.padding;
         this.graph.y0 = this.config.padding;
         this.graph.x1 = this.config.width + this.config.padding;
@@ -1002,10 +1033,7 @@ class SankeyChart {
         this.graph = addVirtualPathData(this.graph, this.config.links.virtualLinkType);
 
 
-        //not using resolveLinkOverlaps at this mo
-
-
-
+        //not using resolveLinkOverlaps at the mo
 
 
     };
@@ -1241,7 +1269,5 @@ class SankeyChart {
 
 
 }; // END OF REDRAW()
-
-
 
 export { SankeyChart };
