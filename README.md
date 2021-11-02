@@ -58,8 +58,8 @@ let config = {
 | Option      | Description | Default       | Mandatory       |
 | ----------- | ----------- |  ----------- | ----------- | 
 | justify      | Title       | Left       |  No     |
-| id   | Text        | d => d.name      |   No    |
-| iterations   | Text        | 32        | No        |
+| id   | If id is specified, sets the node id accessor to the specified function        | d => d.name      |   No    |
+| iterations   | The number of relaxation iterations        | 32        | No        |
 | extent   | Text        | [[0, 0,], [1, 1]]        |    No      |
 | padding   | Padding around the chart, in pixels        | 20        | No        |
 | width   | Width of the chart   | 1000        | No        |
@@ -82,7 +82,7 @@ let config = {
 | Option      | Description | Default       | Mandatory       |
 | ---------- | ----------- |  ----------- | ----------- | 
 | data      | An array of links objects, which must contain a **source**, **target** and **value** property. The source and target must refer to a node's ID.      | NA       |  Yes       |
-| circularGap   | Text        | 5        | No   No       
+| circularGap   | Text        | 5        | No         
 | circularLinkPortionTopBottom   | The portion of the Height  that should be reserved for drawing circular links      | 0.4          | No        |
 | circularLinkPortionLeftRight   | The portion of the Width that should be reserved for drawing circular links        |  0.1         | No        |
 | useVirtualRoutes   | Text        | Text        | No        |
