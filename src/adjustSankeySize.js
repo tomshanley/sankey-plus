@@ -1,15 +1,19 @@
-export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWidth, maxHeight, circularLinkPortionTopBottom, circularLinkPortionLeftRight, scale) {
+export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWidth, scaleDomain, scaleRange, circularLinkPortionTopBottom, circularLinkPortionLeftRight, scale) {
   //let graph = clone(inputGraph);
   let graph = inputGraph;
 
-  
-
   let maxValue = d3.max(graph.nodes, d => d.value);
+
+  console.log(maxValue)
+  console.log(scaleDomain)
+  console.log(scaleRange)
 
   let yScale = d3
     .scaleLinear()
-    .domain([0, maxValue])
-    .range([0, maxHeight]);
+    .domain(scaleDomain)
+    .range(scaleRange);
+
+  console.log(yScale(maxValue))
 
   let columns = d3.groups(graph.nodes, d => d.column)
     .sort((a, b) => a[0] - b[0])
@@ -19,7 +23,7 @@ export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWi
     graph.py = nodePadding;
 
     //calculate the widths of the links
-    graph.ky = maxHeight / maxValue;
+    graph.ky = yScale(maxValue) / maxValue;
 
     graph.links.forEach(function (link) {
       link.width = yScale(link.value);

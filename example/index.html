@@ -1174,26 +1174,30 @@
     //set the nodes and links data (mandatory)
     //override the defaults
     const sankeyConfig = {
-      align: "right",
+      align: "left",
       id: d => d.name,
       iterations: 32,
       extent: [[0, 0,], [1, 1]],
       padding: 20,
       width: 1000,
       height: 500,
-      useManualScale: false,
+      useManualScale: true,
       nodes: {
-        data: testData.nodes,
-        width: 25,
-        maxHeight: 75,
-        padding: 25,
+        //data: testData.nodes,
+        data: nodes,
+        width: 15,
+        //maxHeight: 75,
+        scaleDomain: [0, 100],
+        scaleRange: [0, 75],
+        padding: 50,
         minPadding: 25,
         virtualPadding: 7,
         sort: null,
         setPositions: false
       },
       links: {
-        data: testData.links,
+        //data: testData.links,
+        data: links,
         circularGap: 5,
         circularLinkPortionTopBottom: 0.4,
         circularLinkPortionLeftRight: 0.1,
@@ -1201,7 +1205,7 @@
         baseRadius: 10,
         verticalMargin: 25,
         opacity: 0.5,
-        virtualLinkType: "virtual"  // ["both", "bezier", "virtual"]
+        virtualLinkType: "both"  // ["both", "bezier", "virtual"]
       },
       arrows: {
         enabled: true,
@@ -1220,12 +1224,7 @@
     chart.redraw();
 
 
-    d3.select('svg')
-      .append('rect')
-      .attr('width', 1000)
-      .attr('height', 500)
-      .style('fill', 'none')
-      .style('stroke', 'red')
+    
 
   </script>
 

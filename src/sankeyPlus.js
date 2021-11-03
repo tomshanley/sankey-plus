@@ -769,15 +769,24 @@ function fillHeight(inputGraph) {
         var chartHeight = graph.y1 - graph.y0;
         var ratio = chartHeight / currentHeight;
 
+        let moveScale = d3
+            .scaleLinear()
+            .domain([minY0, maxY1])
+            .range([graph.y0, graph.y1]);
+
         nodes.forEach(function (node) {
-            var nodeHeight = (node.y1 - node.y0) * ratio;
+            /*var nodeHeight = (node.y1 - node.y0) * ratio;
             node.y0 = (node.y0 - minY0) * ratio;
-            node.y1 = node.y0 + nodeHeight;
+            node.y1 = node.y0 + nodeHeight;*/
+            node.y0 = moveScale(node.y0)
+            node.y1 = moveScale(node.y1)
         });
 
         links.forEach(function (link) {
-            link.y0 = (link.y0 - minY0) * ratio;
-            link.y1 = (link.y1 - minY0) * ratio;
+            //link.y0 = (link.y0 - minY0) * ratio;
+            //link.y1 = (link.y1 - minY0) * ratio;
+            link.y0 = moveScale(link.y0)
+            link.y1 = moveScale(link.y1)
             link.width = link.width * ratio;
         });
     }
@@ -942,7 +951,8 @@ class SankeyChart {
             nodes: {
                 //data: nodes,
                 width: 24, //dx
-                maxHeight: 75,
+                scaleDomain: [0, 75],  //maxHeight
+                scaleRange: [0, 75],   //maxValue
                 padding: 25,
                 minPadding: 25,
                 virtualPadding: 7,
@@ -1015,7 +1025,9 @@ class SankeyChart {
             this.config.useManualScale,
             this.config.nodes.padding,
             this.config.nodes.width,
-            this.config.nodes.maxHeight,
+            //this.config.nodes.maxHeight,
+            this.config.nodes.scaleDomain,
+            this.config.nodes.scaleRange,
             this.config.links.circularLinkPortionTopBottom,
             this.config.links.circularLinkPortionLeftRight,
             this.config.scale);
@@ -1053,7 +1065,7 @@ class SankeyChart {
 
         let g = svg
             .append("g")
-            .attr("transform", "translate(" + this.config.padding + "," + this.config.padding + ")");
+            .attr("transform", "translate(0,0)");
 
         let linkG = g
             .append("g")
@@ -1130,6 +1142,30 @@ class SankeyChart {
             return d.source.name + " → " + d.target.name + "\n Index: " + d.index;
         });
 
+        svg
+            .append('rect')
+            .attr('width', this.config.width + this.config.padding + this.config.padding)
+            .attr('height', this.config.height + this.config.padding + this.config.padding)
+            .style('fill', 'none')
+            .style('stroke', 'red')
+
+        svg
+            .append('rect')
+            .attr('x', this.config.padding)
+            .attr('y', this.config.padding)
+            .attr('width', this.config.width)
+            .attr('height', this.config.height)
+            .style('fill', 'none')
+            .style('stroke', 'blue')
+
+        svg
+            .append('rect')
+            .attr('x', this.graph.x0)
+            .attr('y', this.graph.y0)
+            .attr('width', this.graph.x1 - this.graph.x0)
+            .attr('height', this.graph.y1 - this.graph.y0)
+            .style('fill', 'none')
+            .style('stroke', 'green')
 
         if (this.config.arrows.enabled) {
 
