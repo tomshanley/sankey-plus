@@ -1,6 +1,8 @@
-export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWidth, maxHeight, circularLinkPortionTopBottom, circularLinkPortionLeftRight) {
+export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWidth, maxHeight, circularLinkPortionTopBottom, circularLinkPortionLeftRight, scale) {
   //let graph = clone(inputGraph);
   let graph = inputGraph;
+
+  
 
   let maxValue = d3.max(graph.nodes, d => d.value);
 
@@ -50,21 +52,23 @@ export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWi
 
   if (!useManualScale) {
     //override py if nodePadding has been set
-    if (paddingRatio) {
+    /*if (paddingRatio) {
       var padding = Infinity;
       columns.forEach(function (nodes) {
         var thisPadding = (sankeyExtent.y1 * paddingRatio) / (nodes.length + 1);
         padding = thisPadding < padding ? thisPadding : padding;
       });
       graph.py = padding;
-    } else {
+    } else {*/
       graph.py = nodePadding;
-    }
+    //}
 
     var ky = d3.min(columns, function (nodes) {
       return (
-        (sankeyExtent.y1 - sankeyExtent.y0 - (nodes.length - 1) * graph.py) /
-        d3.sum(nodes, value)
+        (graph.y1 - graph.y0 - (nodes.length - 1) * graph.py) /
+        d3.sum(nodes, function(d) {
+          return d.virtual ? 0 : d.value;
+        })
       );
     });
 
@@ -164,3 +168,4 @@ export function adjustSankeySize(inputGraph, useManualScale, nodePadding, nodeWi
 
   return graph;
 }
+

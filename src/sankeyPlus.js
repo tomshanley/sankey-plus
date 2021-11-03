@@ -930,14 +930,15 @@ class SankeyChart {
         this.el = el;
 
         const defaultOptions = {
-            justify: "left",
+            align: "left",
             id: d => d.name,
             iterations: 32,
             extent: [[0, 0,], [1, 1]],
             padding: 20,
             width: 1000,
             height: 500,
-            useManualScale: true,
+            useManualScale: false,
+            scale: 0.3,
             nodes: {
                 //data: nodes,
                 width: 24, //dx
@@ -1016,7 +1017,8 @@ class SankeyChart {
             this.config.nodes.width,
             this.config.nodes.maxHeight,
             this.config.links.circularLinkPortionTopBottom,
-            this.config.links.circularLinkPortionLeftRight);
+            this.config.links.circularLinkPortionLeftRight,
+            this.config.scale);
         this.graph = computeNodeBreadths(this.graph, this.config.nodes.setPositions, this.config.id);
         this.graph = resolveCollisionsAndRelax(this.graph, this.config.id, this.config.nodes.padding, this.config.nodes.minPadding, this.config.iterations);
         this.graph = computeLinkBreadths(this.graph);

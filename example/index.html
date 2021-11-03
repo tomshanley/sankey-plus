@@ -40,6 +40,35 @@
 
     let div = d3.select("#chart");
 
+
+    let testData = {
+      nodes: [
+        { name: 'landingC' },
+        { name: 'landingA' },
+        { name: 'landingB' },
+        { name: 'A' },
+        { name: 'B' },
+        { name: 'C' },
+        { name: 'D' },
+        { name: 'E' },
+        { name: 'F' },
+        { name: 'G' },
+        { name: 'H' },
+        { name: 'I' }
+      ],
+      links: [
+        { source: 'landingA', target: 'A', value: 1 },
+        { source: 'landingB', target: 'B', value: 10 },
+        { source: 'landingC', target: 'C', value: 5 },
+        { source: 'landingC', target: 'D', value: 100 },
+        { source: 'D', target: 'I', value: 1 },
+        { source: 'C', target: 'E', value: 15 },
+        { source: 'A', target: 'F', value: 8 },
+        { source: 'B', target: 'G', value: 8 },
+        { source: 'E', target: 'H', value: 8 }
+      ]
+    }
+
     /*let oaklanddata = {
       "nodes": [
         {
@@ -1145,16 +1174,16 @@
     //set the nodes and links data (mandatory)
     //override the defaults
     const sankeyConfig = {
-      justify: "left",
+      align: "right",
       id: d => d.name,
       iterations: 32,
       extent: [[0, 0,], [1, 1]],
       padding: 20,
       width: 1000,
       height: 500,
-      useManualScale: true,
+      useManualScale: false,
       nodes: {
-        data: nodes,
+        data: testData.nodes,
         width: 25,
         maxHeight: 75,
         padding: 25,
@@ -1164,7 +1193,7 @@
         setPositions: false
       },
       links: {
-        data: links,
+        data: testData.links,
         circularGap: 5,
         circularLinkPortionTopBottom: 0.4,
         circularLinkPortionLeftRight: 0.1,
@@ -1189,6 +1218,14 @@
     console.log(chart);
 
     chart.redraw();
+
+
+    d3.select('svg')
+      .append('rect')
+      .attr('width', 1000)
+      .attr('height', 500)
+      .style('fill', 'none')
+      .style('stroke', 'red')
 
   </script>
 
