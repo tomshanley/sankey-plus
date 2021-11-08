@@ -1,5 +1,7 @@
 # sankey-plus
 
+***NOT READY FOR USE YET - CONTAINS BUGS :)***
+
 A JavaScript library for computing and drawing Sankey graphs.
 
 Based on the [D3-Sankey](https://github.com/d3/d3-sankey) and D3-Sankey-Circular(https://github.com/tomshanley/d3-sankey-circular) libraries, and the experiments in my [Observable notebook](https://observablehq.com/@tomshanley/sankey-circular-deconstructed-part-2-manual-scaling/2).  

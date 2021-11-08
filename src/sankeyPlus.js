@@ -947,7 +947,7 @@ class SankeyChart {
             width: 1000,
             height: 500,
             useManualScale: false,
-            scale: 0.3,
+            scale: 0.5,
             nodes: {
                 //data: nodes,
                 width: 24, //dx
@@ -1030,7 +1030,8 @@ class SankeyChart {
             this.config.nodes.scaleRange,
             this.config.links.circularLinkPortionTopBottom,
             this.config.links.circularLinkPortionLeftRight,
-            this.config.scale);
+            this.config.scale,
+            this.config.links.baseRadius);
         this.graph = computeNodeBreadths(this.graph, this.config.nodes.setPositions, this.config.id);
         this.graph = resolveCollisionsAndRelax(this.graph, this.config.id, this.config.nodes.padding, this.config.nodes.minPadding, this.config.iterations);
         this.graph = computeLinkBreadths(this.graph);
