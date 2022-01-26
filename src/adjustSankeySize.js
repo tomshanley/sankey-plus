@@ -9,33 +9,34 @@ export function adjustSankeySize(
   circularLinkPortionLeftRight,
   scale,
   baseRadius) {
-  //let graph = clone(inputGraph);
+  
+    //let graph = clone(inputGraph);
   let graph = inputGraph;
 
-  let maxValue = d3.max(graph.nodes, d => d.value);
+  //let maxValue = d3.max(graph.nodes, d => d.value);
 
   /*console.log(maxValue)
   console.log(scaleDomain)
   console.log(scaleRange)*/
 
-  let yScale = d3
+  /*let yScale = d3
     .scaleLinear()
     .domain(scaleDomain)
-    .range(scaleRange);
+    .range(scaleRange);*/
 
   //console.log(yScale(maxValue))
 
   let columns = d3.groups(graph.nodes, d => d.column)
     .sort((a, b) => a[0] - b[0])
-    .map(d => d[1])
+    .map(d => d[1]);
 
   let currentWidth = graph.x1 - graph.x0;
   let currentHeight = graph.y1 - graph.y0;
 
-  let marginTopBottom = (currentHeight * circularLinkPortionTopBottom) / 2;
-  let marginLeftRight = (currentWidth * circularLinkPortionLeftRight) / 2;
+  //let marginTopBottom = (currentHeight * circularLinkPortionTopBottom) / 2;
+  //let marginLeftRight = (currentWidth * circularLinkPortionLeftRight) / 2;
 
-  if (useManualScale) {
+  /*if (useManualScale) {
     graph.py = nodePadding;
 
     //calculate the widths of the links
@@ -53,7 +54,7 @@ export function adjustSankeySize(
     let marginTopBottom = (currentHeight * circularLinkPortionTopBottom) / 2;
     let marginLeftRight = (currentWidth * circularLinkPortionLeftRight) / 2;*/
 
-    graph.x0 = graph.x0 + marginLeftRight;
+    /*graph.x0 = graph.x0 + marginLeftRight;
     graph.x1 = graph.x1 - marginLeftRight;
     graph.y0 = graph.y0 + marginTopBottom;
     graph.y1 = graph.y1 - marginTopBottom;
@@ -66,11 +67,12 @@ export function adjustSankeySize(
       node.x0 =
         graph.x0 +
         node.column * ((graph.x1 - graph.x0 - nodeWidth) / maxColumn);
-      node.x1 = node.x0 + /*nodeWidthFunction(node)*/ nodeWidth;
-    });
-  }
+      node.x1 = node.x0 + /*nodeWidthFunction(node)*/ //nodeWidth;
+    //});
+  //}
 
-  if (!useManualScale) {
+  //if (!useManualScale) {
+  if (true) {
     //override py if nodePadding has been set
     /*if (paddingRatio) {
       var padding = Infinity;
@@ -80,7 +82,7 @@ export function adjustSankeySize(
       });
       graph.py = padding;
     } else {*/
-    graph.py = nodePadding;
+      graph.py = nodePadding;
     //}
 
     var ky = d3.min(columns, function (nodes) {
@@ -91,6 +93,17 @@ export function adjustSankeySize(
         })
       );
     });
+
+    let maxColumnSum = d3.max(columns, function (nodes) {
+      //console.log(nodes);
+      let sumNodesValue = d3.sum(nodes, function (d) {
+          return d.virtual ? 0 : d.value;
+        }) + (nodes.length - 1) * graph.py;
+      //console.log(sumNodesValue);
+      return sumNodesValue;
+    });
+
+    let ky1 = (graph.y1 - graph.y0) / maxColumnSum;
 
     //calculate the widths of the links
     graph.ky = ky * scale;
@@ -131,19 +144,19 @@ export function adjustSankeySize(
     //account for radius of curves and padding between links
     totalTopLinksWidth =
       totalTopLinksWidth > 0
-        ? totalTopLinksWidth + marginTopBottom + baseRadius
+        ? totalTopLinksWidth + /*marginTopBottom +*/ baseRadius
         : totalTopLinksWidth;
     totalBottomLinksWidth =
       totalBottomLinksWidth > 0
-        ? totalBottomLinksWidth + marginTopBottom + baseRadius
+        ? totalBottomLinksWidth + /*marginTopBottom +*/ baseRadius
         : totalBottomLinksWidth;
     totalRightLinksWidth =
       totalRightLinksWidth > 0
-        ? totalRightLinksWidth + marginTopBottom + baseRadius
+        ? totalRightLinksWidth +/*marginTopBottom +*/ baseRadius
         : totalRightLinksWidth;
     totalLeftLinksWidth =
       totalLeftLinksWidth > 0
-        ? totalLeftLinksWidth + marginTopBottom + baseRadius
+        ? totalLeftLinksWidth + /*marginTopBottom +*/ baseRadius
         : totalLeftLinksWidth;
 
     var margin = {
@@ -153,14 +166,14 @@ export function adjustSankeySize(
       right: totalRightLinksWidth
     };
 
-    var maxColumn = d3.max(graph.nodes, function (node) {
+    /*var maxColumn = d3.max(graph.nodes, function (node) {
       return node.column;
-    });
+    });*/
 
     //var currentWidth = graph.x1 - graph.x0;
     //var currentHeight = graph.y1 - graph.y0;
 
-    var newWidth = currentWidth + margin.right + margin.left;
+    /*var newWidth = currentWidth + margin.right + margin.left;
     var newHeight = currentHeight + margin.top + margin.bottom;
 
     var scaleX = currentWidth / newWidth;
@@ -169,21 +182,21 @@ export function adjustSankeySize(
     graph.x0 = graph.x0 * scaleX + margin.left;
     graph.x1 = margin.right == 0 ? graph.x1 : graph.x1 * scaleX;
     graph.y0 = graph.y0 * scaleY + margin.top;
-    graph.y1 = graph.y1 * scaleY;
+    graph.y1 = graph.y1 * scaleY;*/
 
     graph.nodes.forEach(function (node) {
       node.x0 =
         graph.x0 +
         node.column * ((graph.x1 - graph.x0 - nodeWidth) / maxColumn);
-      node.x1 = node.x0 + /*nodeWidthFunction(node)*/ nodeWidth;
+      node.x1 = node.x0 + /*nodeWidthFunction(node) */ nodeWidth;
     });
 
     //re-calculate widths
-    graph.ky = graph.ky * scaleY;
+    /*graph.ky = graph.ky * scaleY;
 
     graph.links.forEach(function (link) {
       link.width = link.value * graph.ky;
-    });
+    });*/
   }
 
   return graph;

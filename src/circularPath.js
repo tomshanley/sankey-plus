@@ -15,6 +15,7 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
   //let graph = clone(inputGraph);
   let graph = inputGraph;
   //var baseRadius = 10
+  //var baseRadius = 10
   var buffer = 5;
   //var verticalMargin = 25
 
@@ -31,21 +32,21 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
 
   // calc vertical offsets per top/bottom links
   var topLinks = graph.links.filter(function (l) {
-    return l.circularLinkType == 'top';
+    return l.circularLinkType == "top";
   });
-    /* topLinks = */ calcVerticalBuffer(topLinks, id, circularLinkGap);
+  /* topLinks = */ calcVerticalBuffer(topLinks, id, circularLinkGap);
 
   var bottomLinks = graph.links.filter(function (l) {
-    return l.circularLinkType == 'bottom';
+    return l.circularLinkType == "bottom";
   });
-    /* bottomLinks = */ calcVerticalBuffer(bottomLinks, id, circularLinkGap);
+  /* bottomLinks = */ calcVerticalBuffer(bottomLinks, id, circularLinkGap);
 
   // add the base data for each link
   graph.links.forEach(function (link) {
     if (link.circular) {
       link.circularPathData.arcRadius = link.width + baseRadius;
-      link.circularPathData.leftNodeBuffer = buffer;
       link.circularPathData.rightNodeBuffer = buffer;
+      link.circularPathData.leftNodeBuffer = buffer;
       link.circularPathData.sourceWidth = link.source.x1 - link.source.x0;
       link.circularPathData.sourceX =
         link.source.x0 + link.circularPathData.sourceWidth;
@@ -55,38 +56,38 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
 
       // for self linking paths, and that the only circular link in/out of that node
       if (selfLinking(link, id) && onlyCircularLink(link)) {
-        link.circularPathData.leftSmallArcRadius = baseRadius + link.width / 2;
-        link.circularPathData.leftLargeArcRadius = baseRadius + link.width / 2;
         link.circularPathData.rightSmallArcRadius = baseRadius + link.width / 2;
         link.circularPathData.rightLargeArcRadius = baseRadius + link.width / 2;
+        link.circularPathData.leftSmallArcRadius = baseRadius + link.width / 2;
+        link.circularPathData.leftLargeArcRadius = baseRadius + link.width / 2;
 
-        if (link.circularLinkType == 'bottom') {
+        if (link.circularLinkType == "bottom") {
           link.circularPathData.verticalFullExtent =
             link.source.y1 +
             verticalMargin +
             link.circularPathData.verticalBuffer;
-          link.circularPathData.verticalLeftInnerExtent =
-            link.circularPathData.verticalFullExtent -
-            link.circularPathData.leftLargeArcRadius;
           link.circularPathData.verticalRightInnerExtent =
             link.circularPathData.verticalFullExtent -
             link.circularPathData.rightLargeArcRadius;
+          link.circularPathData.verticalLeftInnerExtent =
+            link.circularPathData.verticalFullExtent -
+            link.circularPathData.leftLargeArcRadius;
         } else {
           // top links
           link.circularPathData.verticalFullExtent =
             link.source.y0 -
             verticalMargin -
             link.circularPathData.verticalBuffer;
-          link.circularPathData.verticalLeftInnerExtent =
-            link.circularPathData.verticalFullExtent +
-            link.circularPathData.leftLargeArcRadius;
           link.circularPathData.verticalRightInnerExtent =
             link.circularPathData.verticalFullExtent +
             link.circularPathData.rightLargeArcRadius;
+          link.circularPathData.verticalLeftInnerExtent =
+            link.circularPathData.verticalFullExtent +
+            link.circularPathData.leftLargeArcRadius;
         }
       } else {
         // else calculate normally
-        // add left extent coordinates, based on links with same source column and circularLink type
+        // add right extent coordinates, based on links with same source column and circularLink type
         var thisColumn = link.source.column;
         var thisCircularLinkType = link.circularLinkType;
         var sameColumnLinks = graph.links.filter(function (l) {
@@ -96,38 +97,13 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
           );
         });
 
-        if (link.circularLinkType == 'bottom') {
+        if (link.circularLinkType == "bottom") {
           sameColumnLinks.sort(sortLinkSourceYDescending);
         } else {
           sameColumnLinks.sort(sortLinkSourceYAscending);
         }
 
         var radiusOffset = 0;
-        sameColumnLinks.forEach(function (l, i) {
-          if (l.circularLinkID == link.circularLinkID) {
-            link.circularPathData.leftSmallArcRadius =
-              baseRadius + link.width / 2 + radiusOffset;
-            link.circularPathData.leftLargeArcRadius =
-              baseRadius + link.width / 2 + i * circularLinkGap + radiusOffset;
-          }
-          radiusOffset = radiusOffset + l.width;
-        });
-
-        // add right extent coordinates, based on links with same target column and circularLink type
-        thisColumn = link.target.column;
-        sameColumnLinks = graph.links.filter(function (l) {
-          return (
-            l.target.column == thisColumn &&
-            l.circularLinkType == thisCircularLinkType
-          );
-        });
-        if (link.circularLinkType == 'bottom') {
-          sameColumnLinks.sort(sortLinkTargetYDescending);
-        } else {
-          sameColumnLinks.sort(sortLinkTargetYAscending);
-        }
-
-        radiusOffset = 0;
         sameColumnLinks.forEach(function (l, i) {
           if (l.circularLinkID == link.circularLinkID) {
             link.circularPathData.rightSmallArcRadius =
@@ -138,44 +114,69 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
           radiusOffset = radiusOffset + l.width;
         });
 
+        // add left extent coordinates, based on links with same target column and circularLink type
+        thisColumn = link.target.column;
+        sameColumnLinks = graph.links.filter(function (l) {
+          return (
+            l.target.column == thisColumn &&
+            l.circularLinkType == thisCircularLinkType
+          );
+        });
+        if (link.circularLinkType == "bottom") {
+          sameColumnLinks.sort(sortLinkTargetYDescending);
+        } else {
+          sameColumnLinks.sort(sortLinkTargetYAscending);
+        }
+
+        radiusOffset = 0;
+        sameColumnLinks.forEach(function (l, i) {
+          if (l.circularLinkID == link.circularLinkID) {
+            link.circularPathData.leftSmallArcRadius =
+              baseRadius + link.width / 2 + radiusOffset;
+            link.circularPathData.leftLargeArcRadius =
+              baseRadius + link.width / 2 + i * circularLinkGap + radiusOffset;
+          }
+          radiusOffset = radiusOffset + l.width;
+        });
+
         // bottom links
-        if (link.circularLinkType == 'bottom') {
+        if (link.circularLinkType == "bottom") {
           link.circularPathData.verticalFullExtent =
             Math.max(graph.y1, link.source.y1, link.target.y1) +
             verticalMargin +
             link.circularPathData.verticalBuffer;
-          link.circularPathData.verticalLeftInnerExtent =
-            link.circularPathData.verticalFullExtent -
-            link.circularPathData.leftLargeArcRadius;
           link.circularPathData.verticalRightInnerExtent =
             link.circularPathData.verticalFullExtent -
             link.circularPathData.rightLargeArcRadius;
+          link.circularPathData.verticalLeftInnerExtent =
+            link.circularPathData.verticalFullExtent -
+            link.circularPathData.leftLargeArcRadius;
         } else {
           // top links
           link.circularPathData.verticalFullExtent =
             minY - verticalMargin - link.circularPathData.verticalBuffer;
-          link.circularPathData.verticalLeftInnerExtent =
-            link.circularPathData.verticalFullExtent +
-            link.circularPathData.leftLargeArcRadius;
           link.circularPathData.verticalRightInnerExtent =
             link.circularPathData.verticalFullExtent +
             link.circularPathData.rightLargeArcRadius;
+          link.circularPathData.verticalLeftInnerExtent =
+            link.circularPathData.verticalFullExtent +
+            link.circularPathData.leftLargeArcRadius;
         }
       }
 
       // all links
-      link.circularPathData.leftInnerExtent =
-        link.circularPathData.sourceX + link.circularPathData.leftNodeBuffer;
       link.circularPathData.rightInnerExtent =
-        link.circularPathData.targetX - link.circularPathData.rightNodeBuffer;
-      link.circularPathData.leftFullExtent =
-        link.circularPathData.sourceX +
-        link.circularPathData.leftLargeArcRadius +
-        link.circularPathData.leftNodeBuffer;
+        link.circularPathData.sourceX + link.circularPathData.rightNodeBuffer;
+      link.circularPathData.leftInnerExtent =
+        link.circularPathData.targetX - link.circularPathData.leftNodeBuffer;
       link.circularPathData.rightFullExtent =
-        link.circularPathData.targetX -
-        link.circularPathData.rightLargeArcRadius -
+        link.circularPathData.sourceX +
+        link.circularPathData.rightLargeArcRadius +
         link.circularPathData.rightNodeBuffer;
+      link.circularPathData.leftFullExtent =
+        link.circularPathData.targetX -
+        link.circularPathData.leftLargeArcRadius -
+        link.circularPathData.leftNodeBuffer;
     }
 
     if (link.circular) {
@@ -197,7 +198,7 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
     }
   });
 
-  return graph;
+  return graph
 }
 
 
@@ -242,177 +243,178 @@ function circularLinksCross(link1, link2) {
 
 
 // create a d path using the addCircularPathData
+// create a d path using the addCircularPathData
 function createCircularPathString(link) {
-  var pathString = '';
+  var pathString = "";
   // 'pathData' is assigned a value but never used
   // var pathData = {}
 
-  if (link.circularLinkType == 'top') {
+  if (link.circularLinkType == "top") {
     pathString =
-      // start at the right of the source node
-      'M' +
+      // start at the left of the source node
+      "M" +
       link.circularPathData.sourceX +
-      ' ' +
+      " " +
       link.circularPathData.sourceY +
-      ' ' +
-      // line right to buffer point
-      'L' +
-      link.circularPathData.leftInnerExtent +
-      ' ' +
-      link.circularPathData.sourceY +
-      ' ' +
-      // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
-      link.circularPathData.leftLargeArcRadius +
-      ' ' +
-      link.circularPathData.leftSmallArcRadius +
-      ' 0 0 0 ' +
-      // End of arc X //End of arc Y
-      link.circularPathData.leftFullExtent +
-      ' ' +
-      (link.circularPathData.sourceY -
-        link.circularPathData.leftSmallArcRadius) +
-      ' ' + // End of arc X
-      // line up to buffer point
-      'L' +
-      link.circularPathData.leftFullExtent +
-      ' ' +
-      link.circularPathData.verticalLeftInnerExtent +
-      ' ' +
-      // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
-      link.circularPathData.leftLargeArcRadius +
-      ' ' +
-      link.circularPathData.leftLargeArcRadius +
-      ' 0 0 0 ' +
-      // End of arc X //End of arc Y
-      link.circularPathData.leftInnerExtent +
-      ' ' +
-      link.circularPathData.verticalFullExtent +
-      ' ' + // End of arc X
+      " " +
       // line left to buffer point
-      'L' +
+      "L" +
       link.circularPathData.rightInnerExtent +
-      ' ' +
-      link.circularPathData.verticalFullExtent +
-      ' ' +
+      " " +
+      link.circularPathData.sourceY +
+      " " +
       // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
+      "A" +
       link.circularPathData.rightLargeArcRadius +
-      ' ' +
-      link.circularPathData.rightLargeArcRadius +
-      ' 0 0 0 ' +
-      // End of arc X //End of arc Y
-      link.circularPathData.rightFullExtent +
-      ' ' +
-      link.circularPathData.verticalRightInnerExtent +
-      ' ' + // End of arc X
-      // line down
-      'L' +
-      link.circularPathData.rightFullExtent +
-      ' ' +
-      (link.circularPathData.targetY -
-        link.circularPathData.rightSmallArcRadius) +
-      ' ' +
-      // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
-      link.circularPathData.rightLargeArcRadius +
-      ' ' +
+      " " +
       link.circularPathData.rightSmallArcRadius +
-      ' 0 0 0 ' +
+      " 0 0 0 " +
+      // End of arc X //End of arc Y
+      link.circularPathData.rightFullExtent +
+      " " +
+      (link.circularPathData.sourceY -
+        link.circularPathData.rightSmallArcRadius) +
+      " " + // End of arc X
+      // line up to buffer point
+      "L" +
+      link.circularPathData.rightFullExtent +
+      " " +
+      link.circularPathData.verticalRightInnerExtent +
+      " " +
+      // Arc around: Centre of arc X and  //Centre of arc Y
+      "A" +
+      link.circularPathData.rightLargeArcRadius +
+      " " +
+      link.circularPathData.rightLargeArcRadius +
+      " 0 0 0 " +
       // End of arc X //End of arc Y
       link.circularPathData.rightInnerExtent +
-      ' ' +
+      " " +
+      link.circularPathData.verticalFullExtent +
+      " " + // End of arc X
+      // line right to buffer point
+      "L" +
+      link.circularPathData.leftInnerExtent +
+      " " +
+      link.circularPathData.verticalFullExtent +
+      " " +
+      // Arc around: Centre of arc X and  //Centre of arc Y
+      "A" +
+      link.circularPathData.leftLargeArcRadius +
+      " " +
+      link.circularPathData.leftLargeArcRadius +
+      " 0 0 0 " +
+      // End of arc X //End of arc Y
+      link.circularPathData.leftFullExtent +
+      " " +
+      link.circularPathData.verticalLeftInnerExtent +
+      " " + // End of arc X
+      // line down
+      "L" +
+      link.circularPathData.leftFullExtent +
+      " " +
+      (link.circularPathData.targetY -
+        link.circularPathData.leftSmallArcRadius) +
+      " " +
+      // Arc around: Centre of arc X and  //Centre of arc Y
+      "A" +
+      link.circularPathData.leftLargeArcRadius +
+      " " +
+      link.circularPathData.leftSmallArcRadius +
+      " 0 0 0 " +
+      // End of arc X //End of arc Y
+      link.circularPathData.leftInnerExtent +
+      " " +
       link.circularPathData.targetY +
-      ' ' + // End of arc X
+      " " + // End of arc X
       // line to end
-      'L' +
+      "L" +
       link.circularPathData.targetX +
-      ' ' +
+      " " +
       link.circularPathData.targetY;
   } else {
     // bottom path
     pathString =
-      // start at the right of the source node
-      'M' +
+      // start at the left of the source node
+      "M" +
       link.circularPathData.sourceX +
-      ' ' +
+      " " +
       link.circularPathData.sourceY +
-      ' ' +
-      // line right to buffer point
-      'L' +
-      link.circularPathData.leftInnerExtent +
-      ' ' +
-      link.circularPathData.sourceY +
-      ' ' +
-      // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
-      link.circularPathData.leftLargeArcRadius +
-      ' ' +
-      link.circularPathData.leftSmallArcRadius +
-      ' 0 0 1 ' +
-      // End of arc X //End of arc Y
-      link.circularPathData.leftFullExtent +
-      ' ' +
-      (link.circularPathData.sourceY +
-        link.circularPathData.leftSmallArcRadius) +
-      ' ' + // End of arc X
-      // line down to buffer point
-      'L' +
-      link.circularPathData.leftFullExtent +
-      ' ' +
-      link.circularPathData.verticalLeftInnerExtent +
-      ' ' +
-      // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
-      link.circularPathData.leftLargeArcRadius +
-      ' ' +
-      link.circularPathData.leftLargeArcRadius +
-      ' 0 0 1 ' +
-      // End of arc X //End of arc Y
-      link.circularPathData.leftInnerExtent +
-      ' ' +
-      link.circularPathData.verticalFullExtent +
-      ' ' + // End of arc X
+      " " +
       // line left to buffer point
-      'L' +
+      "L" +
       link.circularPathData.rightInnerExtent +
-      ' ' +
-      link.circularPathData.verticalFullExtent +
-      ' ' +
+      " " +
+      link.circularPathData.sourceY +
+      " " +
       // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
+      "A" +
       link.circularPathData.rightLargeArcRadius +
-      ' ' +
-      link.circularPathData.rightLargeArcRadius +
-      ' 0 0 1 ' +
-      // End of arc X //End of arc Y
-      link.circularPathData.rightFullExtent +
-      ' ' +
-      link.circularPathData.verticalRightInnerExtent +
-      ' ' + // End of arc X
-      // line up
-      'L' +
-      link.circularPathData.rightFullExtent +
-      ' ' +
-      (link.circularPathData.targetY +
-        link.circularPathData.rightSmallArcRadius) +
-      ' ' +
-      // Arc around: Centre of arc X and  //Centre of arc Y
-      'A' +
-      link.circularPathData.rightLargeArcRadius +
-      ' ' +
+      " " +
       link.circularPathData.rightSmallArcRadius +
-      ' 0 0 1 ' +
+      " 0 0 1 " +
+      // End of arc X //End of arc Y
+      link.circularPathData.rightFullExtent +
+      " " +
+      (link.circularPathData.sourceY +
+        link.circularPathData.rightSmallArcRadius) +
+      " " + // End of arc X
+      // line down to buffer point
+      "L" +
+      link.circularPathData.rightFullExtent +
+      " " +
+      link.circularPathData.verticalRightInnerExtent +
+      " " +
+      // Arc around: Centre of arc X and  //Centre of arc Y
+      "A" +
+      link.circularPathData.rightLargeArcRadius +
+      " " +
+      link.circularPathData.rightLargeArcRadius +
+      " 0 0 1 " +
       // End of arc X //End of arc Y
       link.circularPathData.rightInnerExtent +
-      ' ' +
+      " " +
+      link.circularPathData.verticalFullExtent +
+      " " + // End of arc X
+      // line right to buffer point
+      "L" +
+      link.circularPathData.leftInnerExtent +
+      " " +
+      link.circularPathData.verticalFullExtent +
+      " " +
+      // Arc around: Centre of arc X and  //Centre of arc Y
+      "A" +
+      link.circularPathData.leftLargeArcRadius +
+      " " +
+      link.circularPathData.leftLargeArcRadius +
+      " 0 0 1 " +
+      // End of arc X //End of arc Y
+      link.circularPathData.leftFullExtent +
+      " " +
+      link.circularPathData.verticalLeftInnerExtent +
+      " " + // End of arc X
+      // line up
+      "L" +
+      link.circularPathData.leftFullExtent +
+      " " +
+      (link.circularPathData.targetY +
+        link.circularPathData.leftSmallArcRadius) +
+      " " +
+      // Arc around: Centre of arc X and  //Centre of arc Y
+      "A" +
+      link.circularPathData.leftLargeArcRadius +
+      " " +
+      link.circularPathData.leftSmallArcRadius +
+      " 0 0 1 " +
+      // End of arc X //End of arc Y
+      link.circularPathData.leftInnerExtent +
+      " " +
       link.circularPathData.targetY +
-      ' ' + // End of arc X
+      " " + // End of arc X
       // line to end
-      'L' +
+      "L" +
       link.circularPathData.targetX +
-      ' ' +
+      " " +
       link.circularPathData.targetY;
   }
 
