@@ -10,80 +10,20 @@ export function adjustSankeySize(
   scale,
   baseRadius) {
   
-    //let graph = clone(inputGraph);
   let graph = inputGraph;
 
-  //let maxValue = d3.max(graph.nodes, d => d.value);
-
-  /*console.log(maxValue)
-  console.log(scaleDomain)
-  console.log(scaleRange)*/
-
-  /*let yScale = d3
-    .scaleLinear()
-    .domain(scaleDomain)
-    .range(scaleRange);*/
-
-  //console.log(yScale(maxValue))
+  
 
   let columns = d3.groups(graph.nodes, d => d.column)
     .sort((a, b) => a[0] - b[0])
     .map(d => d[1]);
 
-  let currentWidth = graph.x1 - graph.x0;
-  let currentHeight = graph.y1 - graph.y0;
 
-  //let marginTopBottom = (currentHeight * circularLinkPortionTopBottom) / 2;
-  //let marginLeftRight = (currentWidth * circularLinkPortionLeftRight) / 2;
-
-  /*if (useManualScale) {
-    graph.py = nodePadding;
-
-    //calculate the widths of the links
-    graph.ky = yScale(maxValue) / maxValue;
-
-    graph.links.forEach(function (link) {
-      link.width = yScale(link.value);
-    });
-
-    //determine how much to scale down the chart, based on circular links
-
-    /*let currentWidth = graph.x1 - graph.x0;
-    let currentHeight = graph.y1 - graph.y0;
-
-    let marginTopBottom = (currentHeight * circularLinkPortionTopBottom) / 2;
-    let marginLeftRight = (currentWidth * circularLinkPortionLeftRight) / 2;*/
-
-    /*graph.x0 = graph.x0 + marginLeftRight;
-    graph.x1 = graph.x1 - marginLeftRight;
-    graph.y0 = graph.y0 + marginTopBottom;
-    graph.y1 = graph.y1 - marginTopBottom;
-
-    var maxColumn = d3.max(graph.nodes, function (node) {
-      return node.column;
-    });
-
-    graph.nodes.forEach(function (node) {
-      node.x0 =
-        graph.x0 +
-        node.column * ((graph.x1 - graph.x0 - nodeWidth) / maxColumn);
-      node.x1 = node.x0 + /*nodeWidthFunction(node)*/ //nodeWidth;
-    //});
-  //}
-
-  //if (!useManualScale) {
+  
   if (true) {
-    //override py if nodePadding has been set
-    /*if (paddingRatio) {
-      var padding = Infinity;
-      columns.forEach(function (nodes) {
-        var thisPadding = (sankeyExtent.y1 * paddingRatio) / (nodes.length + 1);
-        padding = thisPadding < padding ? thisPadding : padding;
-      });
-      graph.py = padding;
-    } else {*/
+    
       graph.py = nodePadding;
-    //}
+
 
     var ky = d3.min(columns, function (nodes) {
       return (
@@ -95,11 +35,9 @@ export function adjustSankeySize(
     });
 
     let maxColumnSum = d3.max(columns, function (nodes) {
-      //console.log(nodes);
       let sumNodesValue = d3.sum(nodes, function (d) {
           return d.virtual ? 0 : d.value;
         }) + (nodes.length - 1) * graph.py;
-      //console.log(sumNodesValue);
       return sumNodesValue;
     });
 
@@ -144,19 +82,19 @@ export function adjustSankeySize(
     //account for radius of curves and padding between links
     totalTopLinksWidth =
       totalTopLinksWidth > 0
-        ? totalTopLinksWidth + /*marginTopBottom +*/ baseRadius
+        ? totalTopLinksWidth + baseRadius
         : totalTopLinksWidth;
     totalBottomLinksWidth =
       totalBottomLinksWidth > 0
-        ? totalBottomLinksWidth + /*marginTopBottom +*/ baseRadius
+        ? totalBottomLinksWidth + baseRadius
         : totalBottomLinksWidth;
     totalRightLinksWidth =
       totalRightLinksWidth > 0
-        ? totalRightLinksWidth +/*marginTopBottom +*/ baseRadius
+        ? totalRightLinksWidth +  baseRadius
         : totalRightLinksWidth;
     totalLeftLinksWidth =
       totalLeftLinksWidth > 0
-        ? totalLeftLinksWidth + /*marginTopBottom +*/ baseRadius
+        ? totalLeftLinksWidth + baseRadius
         : totalLeftLinksWidth;
 
     var margin = {
@@ -166,37 +104,16 @@ export function adjustSankeySize(
       right: totalRightLinksWidth
     };
 
-    /*var maxColumn = d3.max(graph.nodes, function (node) {
-      return node.column;
-    });*/
-
-    //var currentWidth = graph.x1 - graph.x0;
-    //var currentHeight = graph.y1 - graph.y0;
-
-    /*var newWidth = currentWidth + margin.right + margin.left;
-    var newHeight = currentHeight + margin.top + margin.bottom;
-
-    var scaleX = currentWidth / newWidth;
-    var scaleY = currentHeight / newHeight;
-
-    graph.x0 = graph.x0 * scaleX + margin.left;
-    graph.x1 = margin.right == 0 ? graph.x1 : graph.x1 * scaleX;
-    graph.y0 = graph.y0 * scaleY + margin.top;
-    graph.y1 = graph.y1 * scaleY;*/
+    
 
     graph.nodes.forEach(function (node) {
       node.x0 =
         graph.x0 +
         node.column * ((graph.x1 - graph.x0 - nodeWidth) / maxColumn);
-      node.x1 = node.x0 + /*nodeWidthFunction(node) */ nodeWidth;
+      node.x1 = node.x0 + nodeWidth;
     });
 
-    //re-calculate widths
-    /*graph.ky = graph.ky * scaleY;
-
-    graph.links.forEach(function (link) {
-      link.width = link.value * graph.ky;
-    });*/
+   
   }
 
   return graph;

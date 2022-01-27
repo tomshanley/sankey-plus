@@ -67,7 +67,6 @@ export function ascendingBreadth(a, b) {
 
   // sort and set the links' y0 for each node
 export function sortSourceLinks(inputGraph, id) {
-  //let graph = clone(inputGraph);
 
   let graph = inputGraph;
 
@@ -177,7 +176,6 @@ export function sortSourceLinks(inputGraph, id) {
 
 // sort and set the links' y1 for each node
 export function sortTargetLinks(inputGraph, id) {
-  //let graph = clone(inputGraph);
   let graph = inputGraph;
 
   graph.nodes.forEach(function(node) {
@@ -277,12 +275,11 @@ export function sortTargetLinks(inputGraph, id) {
 }
 
 export function sortLinks(inputGraph) {
-  let g = inputGraph; //clone(inputGraph);
+  let g = inputGraph;
 
   for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
     g = sortSourceLinks(g);
     g = sortTargetLinks(g);
-    //g = resolveNodeLinkOverlaps(g);
   }
 
   return g;

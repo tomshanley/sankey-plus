@@ -113,9 +113,7 @@
       { source: "process6", target: "startA", value: 5, optimal: "yes" },
       { source: "process4", target: "process2", value: 10, optimal: "yes" },
       { source: "process6", target: "process8", value: 15, optimal: "yes" },
-      //{ "source": "process4", "target": "startB", "value": 5, "optimal": "yes" },
       { source: "process3", target: "process2", value: 15, optimal: "yes" },
-      //{ "source": "process3", "target": "startB", "value": 5, "optimal": "yes" },
       { source: "process15", target: "process13", value: 10, optimal: "yes" },
       { source: "process13", target: "process9", value: 10, optimal: "yes" },
       { source: "process7", target: "startB", value: 20, optimal: "yes" },
@@ -156,10 +154,8 @@
       height: 500,
       useManualScale: false,
       nodes: {
-        //data: testData.nodes,
         data: nodes,
         width: 10,
-        //maxHeight: 75,
         scaleDomain: [0, 100],
         scaleRange: [0, 75],
         padding: 25,
@@ -169,7 +165,6 @@
         setPositions: false
       },
       links: {
-        //data: testData.links,
         data: links,
         circularGap: 5,
         circularLinkPortionTopBottom: 0.4,
@@ -191,15 +186,9 @@
     };
 
 
-    console.log(sankeyConfig.width);
-
     let chart = new SankeyChart(div, sankeyConfig);
 
-    console.log(chart);
-
     chart.redraw();
-
-
 
 
   </script>

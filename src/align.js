@@ -32,6 +32,3 @@ export function center(node) {
     : node.sourceLinks.length ? (Math.min.apply(Math, node.sourceLinks.map(targetDepth))) - 1
       : 0;
 }
-
-/*Math.min.apply(Math, array.map(function(o) {
-  return o.y; }));*/

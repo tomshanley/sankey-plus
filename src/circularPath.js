@@ -12,12 +12,9 @@ import {
 } from './sortGraph.js';
 
 export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius, verticalMargin) {
-  //let graph = clone(inputGraph);
   let graph = inputGraph;
-  //var baseRadius = 10
-  //var baseRadius = 10
+
   var buffer = 5;
-  //var verticalMargin = 25
 
   var minY = d3.min(graph.links, function (link) {
     return link.source.y0;
@@ -34,12 +31,14 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
   var topLinks = graph.links.filter(function (l) {
     return l.circularLinkType == "top";
   });
-  /* topLinks = */ calcVerticalBuffer(topLinks, id, circularLinkGap);
+  
+  calcVerticalBuffer(topLinks, id, circularLinkGap);
 
   var bottomLinks = graph.links.filter(function (l) {
     return l.circularLinkType == "bottom";
   });
-  /* bottomLinks = */ calcVerticalBuffer(bottomLinks, id, circularLinkGap);
+  
+  calcVerticalBuffer(bottomLinks, id, circularLinkGap);
 
   // add the base data for each link
   graph.links.forEach(function (link) {
@@ -246,8 +245,7 @@ function circularLinksCross(link1, link2) {
 // create a d path using the addCircularPathData
 function createCircularPathString(link) {
   var pathString = "";
-  // 'pathData' is assigned a value but never used
-  // var pathData = {}
+
 
   if (link.circularLinkType == "top") {
     pathString =

@@ -39,7 +39,6 @@ function createMap(arr, id) {
 }
 
 function computeNodeLinks(inputGraph, id) {
-    //let graph = clone(inputGraph);
     let graph = inputGraph;
 
     graph.nodes.forEach(function (node, i) {
@@ -74,7 +73,6 @@ function computeNodeLinks(inputGraph, id) {
 };
 
 function identifyCircles(inputGraph, sortNodes) {
-    //let graph = clone(inputGraph);
 
     let graph = inputGraph;
 
@@ -145,7 +143,6 @@ function identifyCircles(inputGraph, sortNodes) {
 // - if the source/target node already has circular links, then use the same type
 // - if not, choose the type with fewer links
 function selectCircularLinkTypes(inputGraph, id) {
-    //let graph = clone(inputGraph);
     let graph = inputGraph;
 
     let numberOfTops = 0;
@@ -198,7 +195,6 @@ function selectCircularLinkTypes(inputGraph, id) {
 }
 
 function computeNodeValues(inputGraph) {
-    //let graph = clone(inputGraph);
 
     let graph = inputGraph;
 
@@ -226,7 +222,6 @@ function computeNodeValues(inputGraph) {
 }
 
 function computeNodeDepths(inputGraph, sortNodes, align) {
-    //let graph = clone(inputGraph);
 
     let graph = inputGraph;
 
@@ -294,7 +289,6 @@ function computeNodeDepths(inputGraph, sortNodes, align) {
 }
 
 function createVirtualNodes(inputGraph, useVirtualRoutes, id) {
-    //let graph = clone(inputGraph);
 
     let graph = inputGraph;
 
@@ -421,7 +415,6 @@ function createVirtualNodes(inputGraph, useVirtualRoutes, id) {
 
 // Assign nodes' breadths, and then shift nodes that overlap (resolveCollisions)
 function computeNodeBreadths(inputGraph, setNodePositions, id) {
-    //let graph = clone(inputGraph);
 
     let graph = inputGraph;
 
@@ -499,8 +492,6 @@ function computeNodeBreadths(inputGraph, setNodePositions, id) {
                         node.y1 = node.y0 + node.value * graph.ky;
                     }
                 } else {
-                    //TO DO CONFIRM WHERE TOP AND BOTTOM CAME FROM
-                    //if (graph.y0.top == 0 || graph.y1.bottom == 0) {
                     if (graph.y0 == 0 || graph.y1 == 0) {
                         node.y0 = ((graph.y1 - graph.y0) / nodesLength) * i;
                         node.y1 = node.y0 + node.value * graph.ky;
@@ -517,7 +508,6 @@ function computeNodeBreadths(inputGraph, setNodePositions, id) {
 }
 
 function resolveCollisionsAndRelax(inputGraph, id, nodePadding, minNodePadding, iterations) {
-    //let graph = clone(inputGraph);
 
     let graph = inputGraph;
 
@@ -617,7 +607,7 @@ function resolveCollisionsAndRelax(inputGraph, id, nodePadding, minNodePadding, 
                 // Push any overlapping nodes back up.
                 for (i = n - 2; i >= 0; --i) {
                     node = nodes[i];
-                    dy = node.y1 + minNodePadding /*nodePadding*/ - y;
+                    dy = node.y1 + minNodePadding - y;
                     if (dy > 0) (node.y0 -= dy), (node.y1 -= dy);
                     y = node.y0;
                 }
@@ -631,7 +621,6 @@ function resolveCollisionsAndRelax(inputGraph, id, nodePadding, minNodePadding, 
 // Assign the links y0 and y1 based on source/target nodes position,
 // plus the link's relative position to other links to the same node
 function computeLinkBreadths(inputGraph) {
-    //let graph = clone(inputGraph);
     let graph = inputGraph;
 
     graph.nodes.forEach(function (node) {
@@ -670,7 +659,6 @@ function computeLinkBreadths(inputGraph) {
 }
 
 function straigtenVirtualNodes(inputGraph) {
-    //let graph = clone(inputGraph);
     let graph = inputGraph;
 
     graph.nodes.forEach(function (node) {
@@ -704,7 +692,6 @@ function straigtenVirtualNodes(inputGraph) {
 }
 
 function fillHeight(inputGraph) {
-    //let graph = clone(inputGraph);
     let graph = inputGraph;
 
     var nodes = graph.nodes;
@@ -741,9 +728,6 @@ function fillHeight(inputGraph) {
 
         if (ratio < 1) {
             nodes.forEach(function (node) {
-                //var nodeHeight = (node.y1 - node.y0) * ratio;
-                //node.y0 = (node.y0 - minY0) * ratio;
-                //node.y1 = node.y0 + nodeHeight;
                 node.y0 = moveScale(node.y0);
                 node.y1 = moveScale(node.y1);
             });
@@ -757,7 +741,6 @@ function fillHeight(inputGraph) {
             nodes.forEach(function (node) {
                 var nodeHeight = node.y1 - node.y0;
                 let dy = moveScale(node.y0) - node.y0;
-                console.log(dy);
                 node.y0 = moveScale(node.y0);
                 node.y1 = node.y0 + nodeHeight;
                 node.sourceLinks.forEach(function (link) {
@@ -775,7 +758,7 @@ function fillHeight(inputGraph) {
 }
 
 function addVirtualPathData(inputGraph, virtualLinkType) {
-    let graph = clone(inputGraph);
+    let graph = inputGraph;
 
     graph.virtualLinks = [];
     graph.virtualNodes = [];
@@ -929,7 +912,6 @@ class SankeyChart {
             useManualScale: false,
             scale: 0.2,
             nodes: {
-                //data: nodes,
                 width: 24, //dx
                 scaleDomain: [0, 75],  //maxHeight
                 scaleRange: [0, 75],   //maxValue
@@ -943,7 +925,6 @@ class SankeyChart {
                 opacity: 1
             },
             links: {
-                //data: links,
                 circularGap: 5,
                 circularLinkPortionTopBottom: 0.4,
                 circularLinkPortionLeftRight: 0.1,
@@ -964,7 +945,6 @@ class SankeyChart {
 
         };
 
-        //let config = defaultOptions
 
         this.config = Object.assign({}, defaultOptions, config);
         this.config.nodes = Object.assign({}, defaultOptions.nodes, config.nodes);
@@ -972,7 +952,6 @@ class SankeyChart {
         this.config.arrows = Object.assign({}, defaultOptions.arrows, config.arrows);
 
 
-        console.log(config.width);
 
         let sortNodes = this.config.nodes.sort
             ? function (node) {
@@ -1001,12 +980,12 @@ class SankeyChart {
 
         this.graph = identifyCircles(this.graph, sortNodes);
         this.graph = selectCircularLinkTypes(this.graph, this.config.id);
-        
+
         this.graph = computeNodeValues(this.graph);
         this.graph = computeNodeDepths(this.graph, sortNodes, align);
-        
+
         this.graph = createVirtualNodes(this.graph, this.config.links.useVirtualRoutes, this.config.id);
-        
+
         this.graph = adjustSankeySize(this.graph,
             this.config.useManualScale,
             this.config.nodes.padding,
@@ -1018,22 +997,22 @@ class SankeyChart {
             this.config.links.circularLinkPortionLeftRight,
             this.config.scale,
             this.config.links.baseRadius);
-        
+
         this.graph = computeNodeBreadths(this.graph, this.config.nodes.setPositions, this.config.id);
         this.graph = resolveCollisionsAndRelax(this.graph, this.config.id, this.config.nodes.padding, this.config.nodes.minPadding, this.config.iterations);
         this.graph = computeLinkBreadths(this.graph);
 
         this.graph = straigtenVirtualNodes(this.graph);
-        
+
         this.graph = addCircularPathData(this.graph,
             this.config.id,
             this.config.links.circularGap,
             this.config.links.baseRadius,
             this.config.links.verticalMargin);
-        
-        
+
+
         this.graph = adjustGraphExtents(this.graph, this.config.padding, this.config.height, this.config.width, this.config.nodes.width)
-        
+
         this.graph = computeNodeBreadths(this.graph, this.config.nodes.setPositions, this.config.id);
         this.graph = resolveCollisionsAndRelax(this.graph, this.config.id, this.config.nodes.padding, this.config.nodes.minPadding, this.config.iterations);
         this.graph = computeLinkBreadths(this.graph);
@@ -1056,9 +1035,9 @@ class SankeyChart {
             this.config.links.verticalMargin);
 
         this.graph = addVirtualPathData(this.graph, this.config.links.virtualLinkType);
-        
-        
-       
+
+
+
 
 
         //not using resolveLinkOverlaps at the mo
@@ -1104,7 +1083,7 @@ class SankeyChart {
             .attr("width", d => d.x1 - d.x0)
             .style("fill", this.config.nodes.fill)
             .style("stroke", this.config.nodes.stroke)
-            .style("opacity", this.config.nodes.opacity)
+            .style("opacity", this.config.nodes.opacity);
 
 
         node
@@ -1113,8 +1092,7 @@ class SankeyChart {
             .attr("y", d => d.y0 - 8)
             .attr("dy", "0.35em")
             .attr("text-anchor", "middle")
-            .text(this.config.id)
-        //.text(d => d.name);
+            .text(this.config.id);
 
         node.append("title").text(function (d) {
             return d.name + "\n" + d.value;
@@ -1131,22 +1109,8 @@ class SankeyChart {
             .attr("class", "sankey-link")
             .attr("d", d => d.path)
             .style("stroke-width", d => Math.max(1, d.width))
-            //.style("mix-blend-mode", "multiply")
-            //.style("opacity", 0.7)
-            .style("stroke", this.config.links.color)
-        /*.style("stroke", function (link, i) {
-            if (link.circular) {
-                return "red";
-            } else if (link.type == "virtual") {
-                return "yellow";
-            } else if (link.type == "replaced") {
-                return "blue";
-            } else {
-                return 'grey';
-                //return nodeColour(link.source.name);
-            }
-            //return link.circular ? "red" : "black";
-        });*/
+            .style("stroke", this.config.links.color);
+
 
         link.append("title").text(function (d) {
             return d.source.name + " → " + d.target.name + "\n Index: " + d.index;
