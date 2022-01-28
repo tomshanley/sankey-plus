@@ -1,0 +1,15 @@
+{
+  "name": "@tomshanley/sankey-plus",
+  "version": "0.1.0",
+  "description": "A JavaScript library for computing and drawing Sankey graphs.",
+  "main": "src/sankeyPlus.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@tomshanley"
+  },
+  "repository": "https://github.com/tomshanley/sankey-plus",
+  "author": {
+    "name": "Tom Shanley",
+    "url": "https://www.tomshanley.co.nz/"
+  },
+  "license": "ISC"
+}

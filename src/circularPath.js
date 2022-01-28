@@ -1,17 +1,22 @@
-import {
-  selfLinking,
-  onlyCircularLink
-} from './linkAttributes.js';
+import * as d3 from "d3";
+
+import { selfLinking, onlyCircularLink } from "./linkAttributes.js";
 
 import {
   sortLinkSourceYAscending,
   sortLinkSourceYDescending,
   sortLinkTargetYAscending,
   sortLinkTargetYDescending,
-  sortLinkColumnAscending
-} from './sortGraph.js';
+  sortLinkColumnAscending,
+} from "./sortGraph.js";
 
-export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius, verticalMargin) {
+export function addCircularPathData(
+  inputGraph,
+  id,
+  circularLinkGap,
+  baseRadius,
+  verticalMargin
+) {
   let graph = inputGraph;
 
   var buffer = 5;
@@ -31,13 +36,13 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
   var topLinks = graph.links.filter(function (l) {
     return l.circularLinkType == "top";
   });
-  
+
   calcVerticalBuffer(topLinks, id, circularLinkGap);
 
   var bottomLinks = graph.links.filter(function (l) {
     return l.circularLinkType == "bottom";
   });
-  
+
   calcVerticalBuffer(bottomLinks, id, circularLinkGap);
 
   // add the base data for each link
@@ -197,10 +202,8 @@ export function addCircularPathData(inputGraph, id, circularLinkGap, baseRadius,
     }
   });
 
-  return graph
+  return graph;
 }
-
-
 
 // creates vertical buffer values per set of top/bottom links
 function calcVerticalBuffer(links, id, circularLinkGap) {
@@ -240,12 +243,10 @@ function circularLinksCross(link1, link2) {
   }
 }
 
-
 // create a d path using the addCircularPathData
 // create a d path using the addCircularPathData
 function createCircularPathString(link) {
   var pathString = "";
-
 
   if (link.circularLinkType == "top") {
     pathString =

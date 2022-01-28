@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100i");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+#chart {
+  resize: both;
+  border: 1px dashed lightslategray;
+  overflow: auto;
+  width: 600px;
+  height: 400px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+
+rect {
+  shape-rendering: crispEdges;
+}
+
+text {
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.link {
+  fill: none;
+}
