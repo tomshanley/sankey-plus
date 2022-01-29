@@ -4,9 +4,9 @@
     "registry": "https://npm.pkg.github.com/@tomshanley"
   },
   "bck-repository": "https://github.com/tomshanley/sankey-plus",
-  "name": "@spandl/sankey-plus",
+  "name": "@spandl/sankey-plus-test",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@spandl"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": "https://github.com/spandl/sankey-plus",
   "version": "0.1.0",
