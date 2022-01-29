@@ -1,15 +1,36 @@
 {
-  "name": "@tomshanley/sankey-plus",
+  "bck-name": "@tomshanley/sankey-plus",
+  "bck-publishConfig": {
+    "registry": "https://npm.pkg.github.com/@tomshanley"
+  },
+  "bck-repository": "https://github.com/tomshanley/sankey-plus",
+  "name": "@spandl/sankey-plus",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@spandl"
+  },
+  "repository": "https://github.com/spandl/sankey-plus",
   "version": "0.1.0",
   "description": "A JavaScript library for computing and drawing Sankey graphs.",
   "main": "src/sankeyPlus.js",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@tomshanley"
-  },
-  "repository": "https://github.com/tomshanley/sankey-plus",
   "author": {
     "name": "Tom Shanley",
     "url": "https://www.tomshanley.co.nz/"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "build": "rm -rf dist && webpack --mode production --config webpack.build.config.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "core-js": "^3.20.3",
+    "terser-webpack-plugin": "^5.3.0",
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "d3": "^7.3.0"
+  }
 }

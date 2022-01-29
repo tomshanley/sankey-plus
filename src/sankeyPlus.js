@@ -894,7 +894,7 @@ function addVirtualPathData(inputGraph, virtualLinkType) {
 }
 
 class SankeyChart {
-  constructor(el, config) {
+  constructor(config) {
     if (!config.nodes.data) {
       throw "Please supply node data";
     }
@@ -902,8 +902,6 @@ class SankeyChart {
     if (!config.links.data) {
       throw "Please supply links data";
     }
-
-    this.el = el;
 
     const defaultOptions = {
       align: "left",
@@ -962,7 +960,7 @@ class SankeyChart {
     );
   }
 
-  calculate() {
+  process() {
     let sortNodes = this.config.nodes.sort
       ? function (node) {
           return node.sort;
@@ -1096,10 +1094,12 @@ class SankeyChart {
     //not using resolveLinkOverlaps at the mo
   }
 
-  redraw() {
-    this.el.selectChildren().remove();
+  draw(id) {
+    // select node
+    const container = d3.select(`#${id}`);
+    container.selectChildren().remove();
 
-    let svg = this.el
+    let svg = container
       .append("svg")
       .attr("width", this.config.width)
       .attr("height", this.config.height);
@@ -1279,6 +1279,6 @@ class SankeyChart {
       });
     }
   }
-} // END OF REDRAW()
+} // End of draw()
 
 export { SankeyChart };

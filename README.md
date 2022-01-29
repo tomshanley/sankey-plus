@@ -29,13 +29,13 @@ Create a new chart:
 let chart = new SankeyChart(element, config);
 ```
 
-* **element**: An HTML element, such as a DIV, which will contain the SVG element created by SankeyChart.redraw()
+* **element**: An HTML element, such as a DIV, which will contain the SVG element created by SankeyChart.draw()
 * **config**: an options object containing the configuration for the sankey chart.
 
-To render the chart, call the *redraw()* method, which creates an SVG element in the specified HTML element:
+To render the chart, call the *draw()* method, which creates an SVG element in the specified HTML element:
 
 ```JavaScript
-chart.redraw();
+chart.draw();
 ```
 
 ## Config options:

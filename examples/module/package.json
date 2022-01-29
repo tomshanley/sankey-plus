@@ -1,7 +1,7 @@
 {
-  "name": "es6-import",
+  "name": "import-example",
   "version": "1.0.0",
-  "description": "ES6 import example for Sankey Plus",
+  "description": "Example for Sankey Plus using import and Snowpack",
   "main": "index.js",
   "scripts": {
     "start": "snowpack dev",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomshanley/sankey-plus.git"
+    "url": "https://github.com/tomshanley/sankey-plus.git"
   },
   "keywords": [
     "Sankey"
@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "d3": "^7.3.0",
-    "elementary-circuits-directed-graph": "^1.3.1",
     "lodash": "^4.17.21"
   }
 }

@@ -2,7 +2,6 @@
 module.exports = {
   mount: {
     "": "/",
-    "../../example": "/test",
   },
   workspaceRoot: "../../",
 };

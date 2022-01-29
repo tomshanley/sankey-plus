@@ -8,11 +8,8 @@ body {
   resize: both;
   border: 1px dashed lightslategray;
   overflow: auto;
-  width: 600px;
+  width: 750px;
   height: 400px;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 rect {
