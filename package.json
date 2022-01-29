@@ -1,14 +1,11 @@
 {
-  "bck-name": "@tomshanley/sankey-plus",
-  "bck-publishConfig": {
-    "registry": "https://npm.pkg.github.com/@tomshanley"
-  },
-  "bck-repository": "https://github.com/tomshanley/sankey-plus",
-  "name": "sankey-plus-test",
+  "name": "@tomshanley/sankey-plus",
+  "repository": "https://github.com/tomshanley/sankey-plus",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "repository": "https://github.com/spandl/sankey-plus",
+  "test-name": "sankey-plus-test",
+  "test-repository": "https://github.com/spandl/sankey-plus",
   "version": "0.1.0",
   "description": "A JavaScript library for computing and drawing Sankey graphs.",
   "main": "src/sankeyPlus.js",
