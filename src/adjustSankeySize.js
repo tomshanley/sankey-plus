@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+
 export function adjustSankeySize(
   inputGraph,
   useManualScale,
@@ -8,22 +10,17 @@ export function adjustSankeySize(
   circularLinkPortionTopBottom,
   circularLinkPortionLeftRight,
   scale,
-  baseRadius) {
-  
+  baseRadius
+) {
   let graph = inputGraph;
 
-  
-
-  let columns = d3.groups(graph.nodes, d => d.column)
+  let columns = d3
+    .groups(graph.nodes, (d) => d.column)
     .sort((a, b) => a[0] - b[0])
-    .map(d => d[1]);
+    .map((d) => d[1]);
 
-
-  
   if (true) {
-    
-      graph.py = nodePadding;
-
+    graph.py = nodePadding;
 
     var ky = d3.min(columns, function (nodes) {
       return (
@@ -35,9 +32,11 @@ export function adjustSankeySize(
     });
 
     let maxColumnSum = d3.max(columns, function (nodes) {
-      let sumNodesValue = d3.sum(nodes, function (d) {
+      let sumNodesValue =
+        d3.sum(nodes, function (d) {
           return d.virtual ? 0 : d.value;
-        }) + (nodes.length - 1) * graph.py;
+        }) +
+        (nodes.length - 1) * graph.py;
       return sumNodesValue;
     });
 
@@ -63,7 +62,7 @@ export function adjustSankeySize(
 
     graph.links.forEach(function (link) {
       if (link.circular) {
-        if (link.circularLinkType == 'top') {
+        if (link.circularLinkType == "top") {
           totalTopLinksWidth = totalTopLinksWidth + link.width;
         } else {
           totalBottomLinksWidth = totalBottomLinksWidth + link.width;
@@ -90,7 +89,7 @@ export function adjustSankeySize(
         : totalBottomLinksWidth;
     totalRightLinksWidth =
       totalRightLinksWidth > 0
-        ? totalRightLinksWidth +  baseRadius
+        ? totalRightLinksWidth + baseRadius
         : totalRightLinksWidth;
     totalLeftLinksWidth =
       totalLeftLinksWidth > 0
@@ -101,10 +100,8 @@ export function adjustSankeySize(
       top: totalTopLinksWidth,
       bottom: totalBottomLinksWidth,
       left: totalLeftLinksWidth,
-      right: totalRightLinksWidth
+      right: totalRightLinksWidth,
     };
-
-    
 
     graph.nodes.forEach(function (node) {
       node.x0 =
@@ -112,10 +109,7 @@ export function adjustSankeySize(
         node.column * ((graph.x1 - graph.x0 - nodeWidth) / maxColumn);
       node.x1 = node.x0 + nodeWidth;
     });
-
-   
   }
 
   return graph;
 }
-

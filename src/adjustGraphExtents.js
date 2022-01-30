@@ -1,5 +1,12 @@
-export function adjustGraphExtents(inputGraph, chartPadding, svgHeight, svgWidth, nodeWidth) {
+import * as d3 from "d3";
 
+export function adjustGraphExtents(
+  inputGraph,
+  chartPadding,
+  svgHeight,
+  svgWidth,
+  nodeWidth
+) {
   let chartHeight = svgHeight - chartPadding - chartPadding;
   let chartWidth = svgWidth - chartPadding - chartPadding;
 
@@ -19,15 +26,13 @@ export function adjustGraphExtents(inputGraph, chartPadding, svgHeight, svgWidth
       } else {
         return graph.y1;
       }
-    })
+    }),
   ];
-
 
   //positive = space to use
   //negative = out of bounds
   let verticalSpaceTop = extentCircularY[0] - chartPadding;
   let verticalSpaceBottom = chartPadding + chartHeight - extentCircularY[1];
-
 
   //if either is out of bounds
   if (verticalSpaceTop < 0 || verticalSpaceBottom < 0) {
@@ -53,7 +58,7 @@ export function adjustGraphExtents(inputGraph, chartPadding, svgHeight, svgWidth
       if (link.circular) {
         return d3.min([
           link.circularPathData.leftFullExtent - link.width / 2,
-          chartPadding
+          chartPadding,
         ]);
       }
     }),
@@ -61,16 +66,14 @@ export function adjustGraphExtents(inputGraph, chartPadding, svgHeight, svgWidth
       if (link.circular) {
         return d3.max([
           link.circularPathData.rightFullExtent + link.width / 2,
-          chartWidth + chartPadding
+          chartWidth + chartPadding,
         ]);
       }
-    })
+    }),
   ];
-
 
   let horizontalSpaceLeft = extentCircularX[0] - chartPadding;
   let horizontalSpaceRight = chartWidth + chartPadding - extentCircularX[1];
-
 
   //if either is out of bounds
   if (horizontalSpaceLeft < 0 || horizontalSpaceRight < 0) {
@@ -103,8 +106,6 @@ export function adjustGraphExtents(inputGraph, chartPadding, svgHeight, svgWidth
       node.x1 = node.x0 + nodeWidth;
     });
   }
-
-
 
   return graph;
 }

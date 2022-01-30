@@ -1,0 +1,30 @@
+{
+  "name": "import-example",
+  "version": "1.0.0",
+  "description": "Example for Sankey Plus using import and Snowpack",
+  "main": "index.js",
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomshanley/sankey-plus.git"
+  },
+  "keywords": [
+    "Sankey"
+  ],
+  "author": "Tom Shanley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomshanley/sankey-plus/issues"
+  },
+  "homepage": "https://github.com/tomshanley/sankey-plus#readme",
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  },
+  "dependencies": {
+    "d3": "^7.3.0",
+    "lodash": "^4.17.21"
+  }
+}
