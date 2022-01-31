@@ -419,15 +419,18 @@ function createVirtualNodes(inputGraph, useVirtualRoutes, id) {
 }
 
 // Assign nodes' breadths, and then shift nodes that overlap (resolveCollisions)
-function computeNodeBreadths(inputGraph, setNodePositions, id) {
-  let graph = inputGraph;
+function computeNodeBreadths() {
+
+  let graph = this.graph;
+  const setNodePositions = this.config.nodes.setPositions;
+  const id = this.config.id;
 
   let columns = d3
     .groups(graph.nodes, (d) => d.column)
     .sort((a, b) => a[0] - b[0])
     .map((d) => d[1]);
 
-  columns.forEach(function (nodes) {
+  columns.forEach( (nodes) => {
     let nodesLength = nodes.length;
 
     let totalColumnValue = nodes.reduce(function (total, d) {
@@ -436,7 +439,7 @@ function computeNodeBreadths(inputGraph, setNodePositions, id) {
 
     let preferredTotalGap = graph.y1 - graph.y0 - totalColumnValue * graph.ky;
 
-    nodes.sort(function (a, b) {
+     const optimizedSort = (a, b) => {
       if (a.circularLinkType == b.circularLinkType) {
         return (
           numberOfNonSelfLinkingCycles(b, id) -
@@ -452,7 +455,13 @@ function computeNodeBreadths(inputGraph, setNodePositions, id) {
       } else if (a.partOfCycle == false && b.circularLinkType == "bottom") {
         return -1;
       }
-    });
+    };
+
+    const customSort = (a, b) =>  b.verticalSort - a.verticalSort;    
+
+    this.config.nodes.verticalSort 
+    ? nodes.sort(customSort)        // use custom values for sorting
+    : nodes.sort(optimizedSort);    // Push any overlapping nodes down.
 
     if (setNodePositions) {
       let currentY = graph.y0;
@@ -509,25 +518,24 @@ function computeNodeBreadths(inputGraph, setNodePositions, id) {
   return graph;
 }
 
-function resolveCollisionsAndRelax(
-  inputGraph,
-  id,
-  nodePadding,
-  minNodePadding,
-  iterations
-) {
-  let graph = inputGraph;
+function resolveCollisionsAndRelax() {
+
+  let graph = this.graph;
+  const id = this.config.id;
+  const nodePadding = this.config.nodes.padding;
+  const minNodePadding = this.config.nodes.minPadding;
+  const iterations = this.config.iterations;
 
   let columns = d3
     .groups(graph.nodes, (d) => d.column)
     .sort((a, b) => a[0] - b[0])
     .map((d) => d[1]);
 
-  resolveCollisions();
+  resolveCollisions.call(this);
 
   for (var alpha = 1, n = iterations; n > 0; --n) {
     relaxLeftAndRight((alpha *= 0.99), id);
-    resolveCollisions();
+    resolveCollisions.call(this);
   }
 
   // For each node in each column, check the node's vertical position in relation to its targets and sources vertical position
@@ -586,7 +594,7 @@ function resolveCollisionsAndRelax(
 
   // For each column, check if nodes are overlapping, and if so, shift up/down
   function resolveCollisions() {
-    columns.forEach(function (nodes) {
+    columns.forEach((nodes) => {
       var node,
         dy,
         y = graph.y0,
@@ -594,7 +602,11 @@ function resolveCollisionsAndRelax(
         i;
 
       // Push any overlapping nodes down.
-      nodes.sort(ascendingBreadth);
+      const customSort = (a, b) =>  b.verticalSort - a.verticalSort;       
+
+      this.config.nodes.verticalSort 
+      ? nodes.sort(customSort)        // use custom values for sorting
+      : nodes.sort(ascendingBreadth); // Push any overlapping nodes down.
 
       for (i = 0; i < n; ++i) {
         node = nodes[i];
@@ -961,10 +973,8 @@ class SankeyChart {
   }
 
   process() {
-    let sortNodes = this.config.nodes.sort
-      ? function (node) {
-          return node.sort;
-        }
+    let sortNodes = this.config.nodes.horizontalSort
+      ? (node) => node.horizontalSort
       : null;
 
     let align =
@@ -1019,18 +1029,9 @@ class SankeyChart {
       this.config.links.baseRadius
     );
 
-    this.graph = computeNodeBreadths(
-      this.graph,
-      this.config.nodes.setPositions,
-      this.config.id
-    );
-    this.graph = resolveCollisionsAndRelax(
-      this.graph,
-      this.config.id,
-      this.config.nodes.padding,
-      this.config.nodes.minPadding,
-      this.config.iterations
-    );
+    
+    this.graph = computeNodeBreadths.call(this);
+    this.graph = resolveCollisionsAndRelax.call(this);
     this.graph = computeLinkBreadths(this.graph);
 
     this.graph = straigtenVirtualNodes(this.graph);
@@ -1051,18 +1052,13 @@ class SankeyChart {
       this.config.nodes.width
     );
 
-    this.graph = computeNodeBreadths(
-      this.graph,
-      this.config.nodes.setPositions,
-      this.config.id
-    );
-    this.graph = resolveCollisionsAndRelax(
-      this.graph,
-      this.config.id,
-      this.config.nodes.padding,
-      this.config.nodes.minPadding,
-      this.config.iterations
-    );
+    // this.graph = computeNodeBreadths(
+    //   this.graph,
+    //   this.config.nodes.setPositions,
+    //   this.config.id
+    // );
+    this.graph = computeNodeBreadths.call(this);
+    this.graph = resolveCollisionsAndRelax.call(this);
     this.graph = computeLinkBreadths(this.graph);
     this.graph = straigtenVirtualNodes(this.graph);
 
