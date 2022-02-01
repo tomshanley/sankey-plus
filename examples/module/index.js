@@ -1,11 +1,12 @@
 import * as _ from "lodash";
 import { SankeyChart } from "../../src/sankeyPlus";
+import { applyHorizontalSort, applyVerticalSort } from './sort/sort-example'
 
-// Data
+// Import data and configuration
 import { data } from "./data/set-1";
 import { config } from "./config/config";
 
-// Container size
+// Calculate container size
 const containerSize = (container) => {
   const width = container.offsetWidth;
   const height = container.offsetHeight;
@@ -17,7 +18,11 @@ const containerId = "chart";
 const container = document.getElementById(containerId);
 const { width, height } = containerSize(container);
 
-// add data, height and width to external configuration file
+// Example: dynamically apply sort properties to nodes
+data.nodes = applyHorizontalSort(data)
+data.nodes = applyVerticalSort(data)
+
+// Add dynamic values (data, height and width) to configuration file
 config.width = width;
 config.height = height;
 config.nodes.data = data.nodes;

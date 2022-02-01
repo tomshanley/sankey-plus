@@ -77,7 +77,8 @@ let config = {
 | padding   | The ideal vertical space between each node          | 25        | No        |
 | minPadding   | The minimum vertical space allowed between each node        | 25        | No        |
 | virtualPadding   | The vertical space between nodes and any virtual links which are routed around nodes        | 7        | No        |
-| sort   | A function that determines how nodes are ordered from left to right. This applies where there are circular links in the graph, so the 'first' nodes is arbitary. The sort will be overridden by the nodes order based on in incoming/outgoing links.        | null        | No        |
+| horizontalSort   | Boolean. If set to true, the node objects must contain a property `horizontalSort` (Number). The values of this property will be used for the horizontal position. This applies Sankey charts with circular links where the 'first' node(s) is arbitrary. If null or false, the sort order of the nodes are based on in incoming/outgoing links.        | null        | No        |
+| verticalSort   | Boolean. If set to true, the node objects must contain a property `verticalSort` (Number). The values of this property will be used for the vertical position, for nodes within the same column. If null or false, the sort order of the nodes is optimized for the best layout.        | null        | No        |
 | setPositions   | If true, then the nodes' positions aren't optimised vertical.        | false        | No        |
 
 ### Links
