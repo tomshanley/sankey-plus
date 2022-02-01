@@ -11,7 +11,6 @@ This library enhances those to provide:
 * Handling for circular links
 * Routing of long links to avoid overlapping nodes
 * Improved layout
-* Option to use d3.scaleLinear to size nodes and links, to ensure consistent scaling over different charts
 * New API that uses a config object
 
 
@@ -62,7 +61,6 @@ let config = {
 | justify      | Title       | Left       |  No     |
 | id   | If id is specified, sets the node id accessor to the specified function        | d => d.name      |   No    |
 | iterations   | The number of relaxation iterations        | 32        | No        |
-| extent   | Text        | [[0, 0,], [1, 1]]        |    No      |
 | padding   | Padding around the chart, in pixels        | 20        | No        |
 | width   | Width of the chart   | 1000        | No        |
 | height   | Height of the chart        | 500        | No        |

@@ -919,10 +919,6 @@ class SankeyChart {
       align: "left",
       id: (d) => d.name,
       iterations: 32,
-      extent: [
-        [0, 0],
-        [1, 1],
-      ],
       padding: 20,
       width: 1000,
       height: 500,
@@ -931,8 +927,6 @@ class SankeyChart {
       scale: 0.2,
       nodes: {
         width: 24, //dx
-        scaleDomain: [0, 75], //maxHeight
-        scaleRange: [0, 75], //maxValue
         padding: 25,
         minPadding: 25,
         virtualPadding: 7,

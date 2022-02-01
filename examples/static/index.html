@@ -83,11 +83,7 @@
       const sankeyConfig = {
         align: "left",
         id: (d) => d.name,
-        iterations: 10,
-        extent: [
-          [0, 0],
-          [1, 1],
-        ],
+        iterations: 10,        
         padding: 25,
         width: 900,
         height: 500,
@@ -95,8 +91,6 @@
         nodes: {
           data: nodes,
           width: 10,
-          scaleDomain: [0, 100],
-          scaleRange: [0, 75],
           padding: 25,
           minPadding: 25,
           virtualPadding: 7,
