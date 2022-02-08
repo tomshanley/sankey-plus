@@ -284,3 +284,16 @@ export function sortLinks(inputGraph) {
 
   return g;
 }
+
+
+// test if links both slope up, or both slope down
+function sameInclines(link1, link2) {
+  return incline(link1) == incline(link2);
+}
+
+// returns the slope of a link, from source to target
+// up => slopes up from source to target
+// down => slopes down from source to target
+function incline(link) {
+  return link.y0 - link.y1 > 0 ? 'up' : 'down';
+}

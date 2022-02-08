@@ -87,7 +87,6 @@
         padding: 25,
         width: 900,
         height: 500,
-        useManualScale: false,
         nodes: {
           data: nodes,
           width: 10,
@@ -106,20 +105,23 @@
           baseRadius: 10,
           verticalMargin: 25,
           opacity: 0.5,
-          virtualLinkType: "both", // ["both", "bezier", "virtual"]
+          virtualLinkType: "both", // ["both", "bezier", "virtual"]*/
         },
         arrows: {
           enabled: true,
           color: "DarkSlateGrey",
           length: 10,
           gap: 50,
-          headSize: 4,
+          headSize: 4
         },
       };
 
       // Create new instance of the Sankey chart, process the data and draw the chart
       const chart = new SankeyPlus.SankeyChart(sankeyConfig);
       chart.process();
+
+      console.log(chart);
+
       chart.draw("chart");
     </script>
   </body>
