@@ -1,4 +1,5 @@
 import { getNodeID } from "./nodeAttributes.js";
+import { linkPerpendicularYToLinkSource, linkPerpendicularYToLinkTarget } from "./linkAttributes.js";
 
 
 // sort ascending links by their source vertical position, y0
