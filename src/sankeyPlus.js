@@ -1,6 +1,6 @@
 import { find } from "./find.js";
 //import { constant } from './constant.js';
-import * as d3 from "d3";
+import {group, sum, mean, min, max, select, range} from "d3";
 import { findCircuits } from "./networks/elementaryCircuits.js";
 import {
   getNodeID,
@@ -43,7 +43,7 @@ const _typeof =
 function createMap(arr, id) {
   let m = new Map();
 
-  let nodeByIDGroup = d3.group(arr, id);
+  let nodeByIDGroup = group(arr, id);
   nodeByIDGroup.forEach(function (value, key) {
     m.set(key, value[0]);
   });
@@ -60,7 +60,6 @@ function computeNodeLinks(inputGraph, id) {
     node.targetLinks = [];
   });
 
-  //let nodeByID = d3.map(graph.nodes, id);
   let nodeByID = createMap(graph.nodes, id);
 
   graph.links.forEach(function (link, i) {
@@ -211,8 +210,8 @@ function computeNodeValues(inputGraph) {
   graph.nodes.forEach(function (node) {
     node.partOfCycle = false;
     node.value = Math.max(
-      d3.sum(node.sourceLinks, value),
-      d3.sum(node.targetLinks, value)
+      sum(node.sourceLinks, value),
+      sum(node.targetLinks, value)
     );
     node.sourceLinks.forEach(function (link) {
       if (link.circular) {
@@ -566,15 +565,14 @@ function resolveCollisionsAndRelax() {
             node.targetLinks.length == 1 &&
             node.targetLinks[0].source.sourceLinks.length == 1
           ) {
-            //var avgSourceY = d3.mean(node.targetLinks, linkSourceCenter);
             let nodeHeight = node.y1 - node.y0;
             node.y0 = node.targetLinks[0].source.y0;
             node.y1 = node.y0 + nodeHeight;
           } else {
             var avg = 0;
 
-            var avgTargetY = d3.mean(node.sourceLinks, linkTargetCenter);
-            var avgSourceY = d3.mean(node.targetLinks, linkSourceCenter);
+            var avgTargetY = mean(node.sourceLinks, linkTargetCenter);
+            var avgSourceY = mean(node.targetLinks, linkSourceCenter);
 
             if (avgTargetY && avgSourceY) {
               avg = (avgTargetY + avgSourceY) / 2;
@@ -728,11 +726,11 @@ function fillHeight(inputGraph) {
   });
 
   if (top == false || bottom == false) {
-    var minY0 = d3.min(nodes, function (node) {
+    var minY0 = min(nodes, function (node) {
       return node.y0;
     });
 
-    var maxY1 = d3.max(nodes, function (node) {
+    var maxY1 = max(nodes, function (node) {
       return node.y1;
     });
 
@@ -1087,7 +1085,7 @@ class SankeyChart {
 
   draw(id) {
     // select node
-    const container = d3.select(`#${id}`);
+    const container = select(`#${id}`);
     container.selectChildren().remove();
 
     let svg = container
@@ -1196,8 +1194,8 @@ class SankeyChart {
         .style("stroke-dasharray", arrowLength + "," + gapLength);
 
       arrows.each(function (arrow) {
-        let thisPath = d3.select(this).node();
-        let parentG = d3.select(this.parentNode);
+        let thisPath = select(this).node();
+        let parentG = select(this.parentNode);
         let pathLength = thisPath.getTotalLength();
         let numberOfArrows = Math.ceil(pathLength / totalDashArrayLength);
 
@@ -1210,7 +1208,7 @@ class SankeyChart {
           numberOfArrows = numberOfArrows - 1;
         }
 
-        let arrowHeadData = d3.range(numberOfArrows).map(function (d, i) {
+        let arrowHeadData = range(numberOfArrows).map(function (d, i) {
           let length = i * totalDashArrayLength + arrowLength;
 
           let point = thisPath.getPointAtLength(length);

@@ -1,5 +1,3 @@
-//import { min } from "d3-array";  //TO DO remove dependencies if possible
-
 // For a given link, return the target node's depth
 function targetDepth(d) {
   return d.target.depth;

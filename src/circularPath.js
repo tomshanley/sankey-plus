@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import {min, linkHorizontal} from "d3";
 
 import { selfLinking, onlyCircularLink } from "./linkAttributes.js";
 
@@ -21,7 +21,7 @@ export function addCircularPathData(
 
   var buffer = 5;
 
-  var minY = d3.min(graph.links, function (link) {
+  var minY = min(graph.links, function (link) {
     return link.source.y0;
   });
 
@@ -186,8 +186,7 @@ export function addCircularPathData(
     if (link.circular) {
       link.path = createCircularPathString(link);
     } else {
-      var normalPath = d3
-        .linkHorizontal()
+      var normalPath = linkHorizontal()
         .source(function (d) {
           var x = d.source.x0 + (d.source.x1 - d.source.x0);
           var y = d.y0;

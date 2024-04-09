@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import {groups, sum, min, max} from "d3";
 
 export function adjustSankeySize(
   inputGraph,
@@ -14,26 +14,26 @@ export function adjustSankeySize(
 ) {
   let graph = inputGraph;
 
-  let columns = d3
-    .groups(graph.nodes, (d) => d.column)
+  let columns = 
+    groups(graph.nodes, (d) => d.column)
     .sort((a, b) => a[0] - b[0])
     .map((d) => d[1]);
 
   if (true) {
     graph.py = nodePadding;
 
-    var ky = d3.min(columns, function (nodes) {
+    var ky = min(columns, function (nodes) {
       return (
         (graph.y1 - graph.y0 - (nodes.length - 1) * graph.py) /
-        d3.sum(nodes, function (d) {
+        sum(nodes, function (d) {
           return d.virtual ? 0 : d.value;
         })
       );
     });
 
-    let maxColumnSum = d3.max(columns, function (nodes) {
+    let maxColumnSum = max(columns, function (nodes) {
       let sumNodesValue =
-        d3.sum(nodes, function (d) {
+        sum(nodes, function (d) {
           return d.virtual ? 0 : d.value;
         }) +
         (nodes.length - 1) * graph.py;
@@ -56,7 +56,7 @@ export function adjustSankeySize(
       totalRightLinksWidth = 0,
       totalLeftLinksWidth = 0;
 
-    var maxColumn = d3.max(graph.nodes, function (node) {
+    var maxColumn = max(graph.nodes, function (node) {
       return node.column;
     });
 
